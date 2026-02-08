@@ -1,26 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class HidingSpot : MonoBehaviour
 {
-    [Header("UI Settings")]
-    public GameObject promptUI;
+    [Header("Prompt Settings")]
     public string enterPrompt = "Press E to hide";
     public string exitPrompt = "Press E to exit";
 
     private bool _playerInRange;
     private bool _isPlayerHiding;
-    private TMP_Text _promptText;
-
-    private void Start()
-    {
-        if (promptUI != null)
-        {
-            promptUI.SetActive(false);
-            _promptText = promptUI.GetComponentInChildren<TMP_Text>();
-        }
-    }
 
     private void Update()
     {
@@ -39,14 +27,14 @@ public class HidingSpot : MonoBehaviour
             PlayerHideState.Instance.SetHiding(_isPlayerHiding);
         }
 
-        UpdatePromptText();
+        UpdatePrompt();
     }
 
-    private void UpdatePromptText()
+    private void UpdatePrompt()
     {
-        if (_promptText != null)
+        if (InteractionPromptUI.Instance != null)
         {
-            _promptText.text = _isPlayerHiding ? exitPrompt : enterPrompt;
+            InteractionPromptUI.Instance.Show(_isPlayerHiding ? exitPrompt : enterPrompt);
         }
     }
 
@@ -55,10 +43,9 @@ public class HidingSpot : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _playerInRange = true;
-            if (promptUI != null)
+            if (InteractionPromptUI.Instance != null)
             {
-                promptUI.SetActive(true);
-                UpdatePromptText();
+                InteractionPromptUI.Instance.Show(enterPrompt);
             }
         }
     }
@@ -68,9 +55,9 @@ public class HidingSpot : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _playerInRange = false;
-            if (promptUI != null)
+            if (InteractionPromptUI.Instance != null)
             {
-                promptUI.SetActive(false);
+                InteractionPromptUI.Instance.Hide();
             }
 
             if (_isPlayerHiding)
