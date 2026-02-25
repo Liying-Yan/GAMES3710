@@ -37,7 +37,8 @@ Canvas
 ├── PromptText          → 拖入 PromptUI.Prompt Text
 ├── InteractionText     → 拖入 InteractionPromptUI.Prompt Text
 ├── SanitySlider        → 拖入 SanityUI.Sanity Slider
-└── PillCountText       → 拖入 SanityUI.Pill Count Text
+├── PillCountText       → 拖入 SanityUI.Pill Count Text
+└── ReadingUI           → ReadingUI component (全屏阅读面板，运行时自动创建)
 ```
 
 ---

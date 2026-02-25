@@ -219,3 +219,5 @@
 | EnemyAI | Scripts/Enemy/ | 敌人状态机控制器 |
 | PlayerHideState | Scripts/Player/ | 玩家躲藏状态单例 |
 | HidingSpot | Scripts/Interaction/ | 躲藏点交互 |
+| Readable | Scripts/Interaction/ | 可阅读物体交互 |
+| ReadingUI | Scripts/UI/ | 全屏阅读界面单例 |
