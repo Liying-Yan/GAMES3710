@@ -195,16 +195,27 @@ DoorRoot (挂载 LockedDoor + Collider)
 | Crouch Height | 下蹲时 CharacterController 高度 | 1.0 |
 | Crouch Speed Multiplier | 下蹲速度倍率（基于行走速度） | 0.5 |
 | Crouch Transition Speed | 蹲站过渡平滑速度 | 10 |
+| Crouch Obstacle Layers | 阻止站起的检测层 | HeadObstacle |
+
+### 头顶检测层配置
+
+下蹲系统使用专用层 `HeadObstacle`（Layer 8）检测头顶障碍物：
+
+1. Edit → Project Settings → Tags and Layers，将 Layer 8 命名为 `HeadObstacle`
+2. 将需要阻挡站立的物体（管道顶部、低矮天花板等）设为 `HeadObstacle` 层
+3. Inspector 中 FirstPersonController 的 **Crouch Obstacle Layers** 勾选 `HeadObstacle`
+
+> **注意**：只有被标记为 `HeadObstacle` 层的物体才会阻止站起。地面、墙壁等不需要设置此层。
 
 ### 管道设计指南
 
 - 管道高度应略大于 `CrouchHeight`（如 CrouchHeight=1.0 时，管道高度建议 1.1~1.2）
 - 管道宽度应略大于 CharacterController `Radius × 2`（如 Radius=0.3 时，宽度建议 0.7+）
-- 管道的 Collider 层级需包含在 `GroundLayers` 中，否则头顶检测不会生效
+- 管道的**顶部** Collider 需设为 `HeadObstacle` 层
 
 ### 注意事项
 
-- 头顶有障碍物时松开 Ctrl **不会站起**，离开障碍物范围后自动站起
+- 头顶有 `HeadObstacle` 层障碍物时松开 Ctrl **不会站起**，离开障碍物范围后自动站起
 - 下蹲时按 Shift（冲刺）**无效**，速度保持为行走速度 × CrouchSpeedMultiplier
 - 摄像机高度会按站立时的比例自动缩放，无需额外配置
 

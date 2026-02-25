@@ -52,6 +52,8 @@ namespace StarterAssets
 		public float CrouchSpeedMultiplier = 0.5f;
 		[Tooltip("Speed of crouch transition")]
 		public float CrouchTransitionSpeed = 10.0f;
+		[Tooltip("Layers that block standing up (e.g. HeadObstacle)")]
+		public LayerMask CrouchObstacleLayers;
 
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -181,11 +183,10 @@ namespace StarterAssets
 
 		private bool CanStandUp()
 		{
-			int layerMask = ~(1 << gameObject.layer);
 			float radius = _controller.radius;
 			Vector3 bottom = transform.position + Vector3.up * (CrouchHeight + radius);
 			Vector3 top = transform.position + Vector3.up * (_standingHeight - radius);
-			return !Physics.CheckCapsule(bottom, top, radius, layerMask, QueryTriggerInteraction.Ignore);
+			return !Physics.CheckCapsule(bottom, top, radius, CrouchObstacleLayers, QueryTriggerInteraction.Ignore);
 		}
 
 		private void CameraRotation()
