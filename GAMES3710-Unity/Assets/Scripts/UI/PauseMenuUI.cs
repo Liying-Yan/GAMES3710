@@ -12,6 +12,8 @@ public class PauseMenuUI : MonoBehaviour
 
     private GameObject _panel;
     private StarterAssetsInputs _playerInput;
+    private FirstPersonController _fpsController;
+    private TMP_Text _sensitivityValueText;
     private bool _wasReading;
 
     private void Awake()
@@ -155,10 +157,151 @@ public class PauseMenuUI : MonoBehaviour
         titleText.color = Color.white;
         titleText.alignment = TextAlignmentOptions.Center;
 
+        // Sensitivity slider
+        CreateSensitivitySlider(80f);
+
         // Buttons
-        CreateButton("ResumeBtn", "Resume", 35f, Hide);
-        CreateButton("RestartBtn", "Restart", -35f, OnRestart);
-        CreateButton("QuitBtn", "Quit Game", -105f, OnQuit);
+        CreateButton("ResumeBtn", "Resume", 0f, Hide);
+        CreateButton("RestartBtn", "Restart", -70f, OnRestart);
+        CreateButton("QuitBtn", "Quit Game", -140f, OnQuit);
+    }
+
+    private void CreateSensitivitySlider(float yOffset)
+    {
+        // Container
+        var container = new GameObject("SensitivityRow");
+        container.transform.SetParent(_panel.transform, false);
+
+        var containerRect = container.AddComponent<RectTransform>();
+        containerRect.anchorMin = new Vector2(0.5f, 0.5f);
+        containerRect.anchorMax = new Vector2(0.5f, 0.5f);
+        containerRect.pivot = new Vector2(0.5f, 0.5f);
+        containerRect.anchoredPosition = new Vector2(0f, yOffset);
+        containerRect.sizeDelta = new Vector2(300f, 30f);
+
+        // Label
+        var labelObj = new GameObject("Label");
+        labelObj.transform.SetParent(container.transform, false);
+
+        var labelRect = labelObj.AddComponent<RectTransform>();
+        labelRect.anchorMin = new Vector2(0f, 0f);
+        labelRect.anchorMax = new Vector2(0.35f, 1f);
+        labelRect.offsetMin = Vector2.zero;
+        labelRect.offsetMax = Vector2.zero;
+
+        var labelText = labelObj.AddComponent<TextMeshProUGUI>();
+        labelText.text = "Sensitivity";
+        labelText.fontSize = 22f;
+        labelText.color = Color.white;
+        labelText.alignment = TextAlignmentOptions.MidlineLeft;
+
+        // Value text
+        var valueObj = new GameObject("Value");
+        valueObj.transform.SetParent(container.transform, false);
+
+        var valueRect = valueObj.AddComponent<RectTransform>();
+        valueRect.anchorMin = new Vector2(0.88f, 0f);
+        valueRect.anchorMax = new Vector2(1f, 1f);
+        valueRect.offsetMin = Vector2.zero;
+        valueRect.offsetMax = Vector2.zero;
+
+        _sensitivityValueText = valueObj.AddComponent<TextMeshProUGUI>();
+        _sensitivityValueText.fontSize = 22f;
+        _sensitivityValueText.color = Color.white;
+        _sensitivityValueText.alignment = TextAlignmentOptions.MidlineRight;
+
+        // Slider
+        var sliderObj = new GameObject("Slider");
+        sliderObj.transform.SetParent(container.transform, false);
+
+        var sliderRect = sliderObj.AddComponent<RectTransform>();
+        sliderRect.anchorMin = new Vector2(0.36f, 0f);
+        sliderRect.anchorMax = new Vector2(0.86f, 1f);
+        sliderRect.offsetMin = Vector2.zero;
+        sliderRect.offsetMax = Vector2.zero;
+
+        // Background track
+        var bgObj = new GameObject("Background");
+        bgObj.transform.SetParent(sliderObj.transform, false);
+
+        var bgRect = bgObj.AddComponent<RectTransform>();
+        bgRect.anchorMin = new Vector2(0f, 0.4f);
+        bgRect.anchorMax = new Vector2(1f, 0.6f);
+        bgRect.offsetMin = Vector2.zero;
+        bgRect.offsetMax = Vector2.zero;
+
+        var bgImage = bgObj.AddComponent<Image>();
+        bgImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+
+        // Fill area
+        var fillArea = new GameObject("Fill Area");
+        fillArea.transform.SetParent(sliderObj.transform, false);
+
+        var fillAreaRect = fillArea.AddComponent<RectTransform>();
+        fillAreaRect.anchorMin = new Vector2(0f, 0.4f);
+        fillAreaRect.anchorMax = new Vector2(1f, 0.6f);
+        fillAreaRect.offsetMin = Vector2.zero;
+        fillAreaRect.offsetMax = Vector2.zero;
+
+        var fillObj = new GameObject("Fill");
+        fillObj.transform.SetParent(fillArea.transform, false);
+
+        var fillRect = fillObj.AddComponent<RectTransform>();
+        fillRect.anchorMin = Vector2.zero;
+        fillRect.anchorMax = Vector2.one;
+        fillRect.offsetMin = Vector2.zero;
+        fillRect.offsetMax = Vector2.zero;
+
+        var fillImage = fillObj.AddComponent<Image>();
+        fillImage.color = new Color(0.6f, 0.6f, 0.6f, 1f);
+
+        // Handle area
+        var handleArea = new GameObject("Handle Slide Area");
+        handleArea.transform.SetParent(sliderObj.transform, false);
+
+        var handleAreaRect = handleArea.AddComponent<RectTransform>();
+        handleAreaRect.anchorMin = Vector2.zero;
+        handleAreaRect.anchorMax = Vector2.one;
+        handleAreaRect.offsetMin = Vector2.zero;
+        handleAreaRect.offsetMax = Vector2.zero;
+
+        var handleObj = new GameObject("Handle");
+        handleObj.transform.SetParent(handleArea.transform, false);
+
+        var handleRect = handleObj.AddComponent<RectTransform>();
+        handleRect.sizeDelta = new Vector2(16f, 24f);
+
+        var handleImage = handleObj.AddComponent<Image>();
+        handleImage.color = Color.white;
+
+        // Wire up Slider component
+        var slider = sliderObj.AddComponent<Slider>();
+        slider.targetGraphic = handleImage;
+        slider.fillRect = fillRect;
+        slider.handleRect = handleRect;
+        slider.direction = Slider.Direction.LeftToRight;
+        slider.minValue = 0.1f;
+        slider.maxValue = 3f;
+
+        // Read current sensitivity
+        if (_fpsController == null)
+            _fpsController = FindObjectOfType<FirstPersonController>();
+        float current = _fpsController != null ? _fpsController.RotationSpeed : 1f;
+        slider.value = current;
+        _sensitivityValueText.text = current.ToString("F1");
+
+        slider.onValueChanged.AddListener(OnSensitivityChanged);
+    }
+
+    private void OnSensitivityChanged(float value)
+    {
+        if (_fpsController == null)
+            _fpsController = FindObjectOfType<FirstPersonController>();
+        if (_fpsController != null)
+            _fpsController.RotationSpeed = value;
+
+        if (_sensitivityValueText != null)
+            _sensitivityValueText.text = value.ToString("F1");
     }
 
     private void CreateButton(string name, string label, float yOffset, UnityEngine.Events.UnityAction onClick)
