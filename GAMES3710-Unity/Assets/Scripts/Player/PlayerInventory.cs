@@ -5,7 +5,7 @@ public class PlayerInventory : MonoBehaviour
 {
     public static PlayerInventory Instance { get; private set; }
 
-    private HashSet<ItemType> _items = new HashSet<ItemType>();
+    private HashSet<ItemPickup> _keys = new HashSet<ItemPickup>();
 
     private void Awake()
     {
@@ -19,23 +19,23 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void AddItem(ItemType item)
+    public void AddKey(ItemPickup key)
     {
-        _items.Add(item);
+        _keys.Add(key);
     }
 
-    public bool HasItem(ItemType item)
+    public bool HasKey(ItemPickup key)
     {
-        return _items.Contains(item);
+        return _keys.Contains(key);
     }
 
-    public void RemoveItem(ItemType item)
+    public void RemoveKey(ItemPickup key)
     {
-        _items.Remove(item);
+        _keys.Remove(key);
     }
 
     public void Clear()
     {
-        _items.Clear();
+        _keys.Clear();
     }
 }

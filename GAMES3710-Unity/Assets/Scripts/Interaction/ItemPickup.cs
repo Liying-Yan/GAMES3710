@@ -4,8 +4,11 @@ using UnityEngine.InputSystem;
 public class ItemPickup : Interactable
 {
     [Header("Item Settings")]
-    public ItemType itemType;
     public string displayName = "Key";
+    public bool consumable = true;
+
+    [HideInInspector]
+    public bool isPickedUp = false;
 
     private void Update()
     {
@@ -17,9 +20,13 @@ public class ItemPickup : Interactable
 
     public override void Interact()
     {
+        if (isPickedUp) return;
+
+        isPickedUp = true;
+
         if (PlayerInventory.Instance != null)
         {
-            PlayerInventory.Instance.AddItem(itemType);
+            PlayerInventory.Instance.AddKey(this);
         }
 
         if (PromptUI.Instance != null)
@@ -28,7 +35,7 @@ public class ItemPickup : Interactable
         }
 
         HidePrompt();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     protected override void OnPlayerEnter()

@@ -1,15 +1,27 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+
+public enum DoorAnimationType { None, SwingDoor, AnimatorTrigger }
 
 public class LockedDoor : Interactable
 {
-    [Header("Door Settings")]
-    public ItemType requiredItem = ItemType.None;
-    public string requiredItemName = "Key";
-    public bool consumeItem = true;
+    [Header("Key Requirements")]
+    public ItemPickup[] requiredKeys;
 
     [Header("Dependencies")]
     public LockedDoor[] requiredMechanisms;
+
+    [Header("Door Animation")]
+    public DoorAnimationType animationType = DoorAnimationType.None;
+    public float swingAngle = -90f;
+    public float swingDuration = 1f;
+    public Transform doorTransform;
+    public Animator mechanismAnimator;
+    public string animatorTriggerName = "Activate";
+
+    [Header("Prompt")]
+    public string lockedPrompt = "Requires a key";
 
     [Header("State")]
     public bool isOpen;
@@ -35,20 +47,27 @@ public class LockedDoor : Interactable
             return;
         }
 
-        if (requiredItem != ItemType.None)
+        if (requiredKeys != null && requiredKeys.Length > 0)
         {
-            if (PlayerInventory.Instance == null || !PlayerInventory.Instance.HasItem(requiredItem))
+            foreach (var key in requiredKeys)
             {
-                if (PromptUI.Instance != null)
+                if (key == null) continue;
+                if (PlayerInventory.Instance == null || !PlayerInventory.Instance.HasKey(key))
                 {
-                    PromptUI.Instance.Show("Requires " + requiredItemName);
+                    if (PromptUI.Instance != null)
+                    {
+                        PromptUI.Instance.Show(lockedPrompt);
+                    }
+                    return;
                 }
-                return;
             }
 
-            if (consumeItem)
+            foreach (var key in requiredKeys)
             {
-                PlayerInventory.Instance.RemoveItem(requiredItem);
+                if (key != null && key.consumable)
+                {
+                    PlayerInventory.Instance.RemoveKey(key);
+                }
             }
         }
 
@@ -73,7 +92,38 @@ public class LockedDoor : Interactable
     {
         isOpen = true;
         HidePrompt();
-        gameObject.SetActive(false);
+
+        switch (animationType)
+        {
+            case DoorAnimationType.None:
+                gameObject.SetActive(false);
+                break;
+            case DoorAnimationType.SwingDoor:
+                StartCoroutine(SwingDoorCoroutine());
+                break;
+            case DoorAnimationType.AnimatorTrigger:
+                if (mechanismAnimator != null)
+                {
+                    mechanismAnimator.SetTrigger(animatorTriggerName);
+                }
+                break;
+        }
+    }
+
+    private IEnumerator SwingDoorCoroutine()
+    {
+        Quaternion startRot = doorTransform.localRotation;
+        Quaternion endRot = startRot * Quaternion.Euler(0f, swingAngle, 0f);
+        float elapsed = 0f;
+
+        while (elapsed < swingDuration)
+        {
+            elapsed += Time.deltaTime;
+            doorTransform.localRotation = Quaternion.Lerp(startRot, endRot, elapsed / swingDuration);
+            yield return null;
+        }
+
+        doorTransform.localRotation = endRot;
     }
 
     protected override void OnPlayerEnter()

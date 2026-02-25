@@ -11,6 +11,7 @@
 3. [Sanity-药片系统](#sanity-药片系统)
 4. [后处理效果](#后处理效果)
 5. [集成测试清单](#集成测试清单)
+6. [迁移指南（旧系统 → 新系统）](#迁移指南旧系统--新系统)
 
 ---
 
@@ -52,8 +53,10 @@ Canvas
 
 | 参数 | 说明 |
 |------|------|
-| Item Type | 选择道具类型（枚举） |
 | Display Name | 拾取时显示的名称（如 "Basement Key"） |
+| Consumable | 是否一次性消耗（勾选=用后从背包移除，取消=可重复用于多扇门） |
+
+**添加新钥匙**：直接在场景中创建新物体并挂载 `ItemPickup` 即可，无需修改任何枚举或脚本。每把钥匙都是独立的场景物体引用。
 
 ### 创建门/机关
 
@@ -64,38 +67,56 @@ Canvas
 
 | 参数 | 说明 |
 |------|------|
-| Required Item | 所需道具类型，None 表示不需要道具 |
-| Required Item Name | 缺少道具时显示的名称（如 "Basement Key"） |
-| Consume Item | 是否消耗道具（勾选=用后消失） |
-| Required Mechanisms | 前置依赖的机关列表 |
+| Required Keys | 所需钥匙列表，从场景中拖入 `ItemPickup` 物体引用。留空表示不需要钥匙 |
+| Required Mechanisms | 前置依赖的机关列表（保留不变） |
+| Animation Type | 开门动画类型：None / SwingDoor / AnimatorTrigger |
+| Locked Prompt | 缺钥匙时显示的提示文字（默认 "Requires a key"） |
 | Is Open | 当前状态（运行时会自动更新） |
+
+### 门动画配置
+
+#### None 模式（默认）
+
+门物体直接隐藏（`SetActive(false)`），兼容旧行为。
+
+#### SwingDoor 模式
+
+门绕Y轴旋转打开。需要特定的物体层级结构：
+
+```
+DoorRoot (挂载 LockedDoor + Collider)
+├── DoorFrame (门框模型，不动)
+└── Door (门板模型，会旋转)
+```
+
+额外参数：
+
+| 参数 | 说明 |
+|------|------|
+| Door Transform | 拖入需要旋转的 `Door` 子物体 |
+| Swing Angle | 旋转角度，默认 -90（负值=逆时针，正值=顺时针） |
+| Swing Duration | 旋转时长（秒），默认 1 |
+
+#### AnimatorTrigger 模式
+
+通过 Animator 触发开门动画。
+
+| 参数 | 说明 |
+|------|------|
+| Mechanism Animator | 拖入 Animator 组件引用 |
+| Animator Trigger Name | Trigger 参数名，默认 "Activate" |
 
 ### 设置机关依赖
 
 **场景示例**：玩家必须先开启电闸，才能操作水泵
 
-1. 创建电闸物体，添加 `LockedDoor`，Required Item = None
+1. 创建电闸物体，添加 `LockedDoor`，Required Keys 留空
 2. 创建水泵物体，添加 `LockedDoor`
 3. 将电闸物体拖入水泵的 **Required Mechanisms** 数组
 
 **运行时行为**：
 - 电闸未开时，交互水泵显示 "Requires another mechanism first"
 - 电闸开启后，水泵可正常交互
-
-### 道具类型说明
-
-当前可用的道具类型（在 `ItemType.cs` 中定义）：
-
-| 枚举值 | 建议用途 |
-|--------|----------|
-| None | 不需要道具 |
-| KeyBasement | 地下室钥匙 |
-| KeyLibrary | 图书馆钥匙 |
-| KeyStorage | 储藏室钥匙 |
-| Fuse | 保险丝 |
-| Valve | 阀门 |
-
-**添加新道具类型**：编辑 `Assets/Scripts/Core/ItemType.cs`，在枚举中添加新值。
 
 ---
 
@@ -177,23 +198,30 @@ Canvas
 
 ### 场景准备
 
-1. 放置2-3个钥匙（使用不同 ItemType）
-2. 放置对应的门（配置依赖关系）
+1. 放置2-3个钥匙（不同的 `ItemPickup` 物体）
+2. 放置对应的门，将钥匙引用拖入 `Required Keys`
 3. 放置3-4个药片
 4. 临时将 San Decay Rate 调高（如 10）加快测试
 
 ### 钥匙-门系统测试
 
 - [ ] 靠近钥匙，显示 "Press E to pick up"
-- [ ] 按E拾取，底部显示 "Obtained [名称]"
+- [ ] 按E拾取，底部显示 "Obtained [名称]"，钥匙物体隐藏（不销毁）
 - [ ] 靠近门，显示 "Press E to interact"
-- [ ] 无钥匙时按E，底部显示 "Requires [名称]"
-- [ ] 有钥匙时按E，门消失
-- [ ] 钥匙从背包中移除（再次拾取同类型钥匙可验证）
+- [ ] 缺钥匙时按E，底部显示 lockedPrompt 文字
+- [ ] 持有全部所需钥匙时按E，门打开
+- [ ] 一次性钥匙（consumable=true）消耗后，需要该钥匙的其他门无法打开
+- [ ] 非一次性钥匙（consumable=false）不被消耗，可重复用于多扇门
+
+### 门动画测试
+
+- [ ] None 模式：门物体隐藏
+- [ ] SwingDoor 模式：Door 子物体平滑旋转到目标角度
+- [ ] AnimatorTrigger 模式：Animator 被正确触发
 
 ### 机关依赖测试
 
-- [ ] 创建门A（无需道具）和门B（依赖门A）
+- [ ] 创建门A（无需钥匙）和门B（依赖门A）
 - [ ] 门A未开时，交互门B显示 "Requires another mechanism first"
 - [ ] 门A开启后，门B可正常交互
 
@@ -223,14 +251,81 @@ Canvas
 - 检查场景中是否有 PlayerInventory 和 PromptUI 单例
 
 ### Q: 门无法打开
-- 检查 Required Item 是否与钥匙的 Item Type 匹配
+- 检查 Required Keys 中是否正确拖入了对应的 `ItemPickup` 物体引用
 - 检查 Required Mechanisms 中的前置机关是否已开启
+- 检查钥匙是否设为 consumable 且已被其他门消耗
 
 ### Q: 噪点效果不显示
 - 检查 SanityPostProcess 引用是否完整
 - 检查 FullscreenEffect 的 Input Requirements 是否为 Color
 - 检查 San 值是否低于 Low Sanity Threshold
 
+### Q: SwingDoor 旋转方向不对
+- 调整 Swing Angle 的正负值（负值=逆时针，正值=顺时针）
+- 确保 Door Transform 拖入的是门板子物体，而非门框或根物体
+
 ### Q: 持续提示不显示
 - 检查场景中是否有 InteractionPromptUI 单例
 - 检查 Prompt Text 引用是否正确
+
+---
+
+## 迁移指南（旧系统 → 新系统）
+
+> 本节面向从旧版 `ItemType` 枚举系统迁移的项目。新项目可跳过。
+
+### 核心变更
+
+旧系统使用 `ItemType` 枚举实现一对一的钥匙-门绑定；新系统改为直接引用 `ItemPickup` 场景物体，支持一门多钥匙、钥匙复用和多种开门动画。
+
+**`ItemType.cs` 已被删除**，所有基于枚举的道具类型匹配不再存在。
+
+### 字段映射表
+
+#### ItemPickup
+
+| 旧字段 | 新字段 | 说明 |
+|--------|--------|------|
+| `itemType` (ItemType) | *(已移除)* | 不再需要枚举类型 |
+| `displayName` (string) | `displayName` (string) | 保持不变 |
+| *(无)* | `consumable` (bool) | 新增，控制钥匙是否一次性消耗，默认 true |
+
+#### LockedDoor
+
+| 旧字段 | 新字段 | 说明 |
+|--------|--------|------|
+| `requiredItem` (ItemType) | `requiredKeys` (ItemPickup[]) | 从枚举改为场景物体引用数组 |
+| `requiredItemName` (string) | `lockedPrompt` (string) | 改为完整提示文字，默认 "Requires a key" |
+| `consumeItem` (bool) | *(已移除)* | 消耗控制转移到钥匙自身的 `consumable` 字段 |
+| `requiredMechanisms` | `requiredMechanisms` | 保持不变 |
+| `isOpen` | `isOpen` | 保持不变 |
+| *(无)* | `animationType` | 新增，开门动画类型 |
+| *(无)* | `swingAngle`, `swingDuration`, `doorTransform` | 新增，SwingDoor 模式参数 |
+| *(无)* | `mechanismAnimator`, `animatorTriggerName` | 新增，AnimatorTrigger 模式参数 |
+
+#### PlayerInventory
+
+| 旧接口 | 新接口 |
+|--------|--------|
+| `AddItem(ItemType)` | `AddKey(ItemPickup)` |
+| `HasItem(ItemType)` | `HasKey(ItemPickup)` |
+| `RemoveItem(ItemType)` | `RemoveKey(ItemPickup)` |
+| `Clear()` | `Clear()` |
+
+### 场景迁移步骤
+
+#### 1. 迁移 ItemPickup 组件
+
+对于场景中每个 `ItemPickup` 物体：
+1. Inspector 中 `itemType` 字段会显示为 Missing，可忽略
+2. 配置新的 `consumable` 字段（旧系统中 `consumeItem` 在门上配置，现在移到钥匙上）
+3. `displayName` 无需改动
+
+#### 2. 迁移 LockedDoor 组件
+
+对于场景中每个 `LockedDoor` 物体：
+1. 旧的 `requiredItem` 和 `requiredItemName` 字段会显示为 Missing，可忽略
+2. 将对应的 `ItemPickup` 场景物体拖入 **Required Keys** 数组
+3. 配置 `lockedPrompt` 提示文字
+4. 如需开门动画，配置 `animationType` 及对应参数
+5. `requiredMechanisms` 无需改动
