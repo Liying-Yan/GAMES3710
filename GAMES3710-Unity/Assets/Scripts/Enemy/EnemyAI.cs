@@ -26,6 +26,9 @@ public class EnemyAI : MonoBehaviour
     public LayerMask obstacleMask;
     public LayerMask playerMask;
 
+    [Header("Catch Settings")]
+    public float catchDistance = 1.5f;
+
     [Header("Search Settings")]
     public float searchDuration = 5f;
     public float searchRadius = 8f;
@@ -162,6 +165,12 @@ public class EnemyAI : MonoBehaviour
         {
             _lastKnownPlayerPosition = _player.position;
             _agent.SetDestination(_player.position);
+
+            if (Vector3.Distance(transform.position, _player.position) <= catchDistance)
+            {
+                if (GameOverUI.Instance != null)
+                    GameOverUI.Instance.Show();
+            }
         }
     }
 

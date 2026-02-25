@@ -102,7 +102,7 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _NoiseFrameRate: 10
-    - _NoiseIntensity: 0.016191203
+    - _NoiseIntensity: 0.42133814
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
