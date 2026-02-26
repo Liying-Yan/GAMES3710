@@ -23,8 +23,19 @@ public class LockedDoor : Interactable
     [Header("Prompt")]
     public string lockedPrompt = "Requires a key";
 
+    [Header("Door SFX")]
+    public AudioClip openSfx;
+    public AudioClip lockedSfx;
+
     [Header("State")]
     public bool isOpen;
+
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -40,6 +51,9 @@ public class LockedDoor : Interactable
 
         if (!CheckDependencies())
         {
+            if (audioSource != null && lockedSfx != null)
+                audioSource.PlayOneShot(lockedSfx);
+
             if (PromptUI.Instance != null)
             {
                 PromptUI.Instance.Show("Requires another mechanism first");
@@ -54,6 +68,9 @@ public class LockedDoor : Interactable
                 if (key == null) continue;
                 if (PlayerInventory.Instance == null || !PlayerInventory.Instance.HasKey(key))
                 {
+                    if (audioSource != null && lockedSfx != null)
+                        audioSource.PlayOneShot(lockedSfx);
+
                     if (PromptUI.Instance != null)
                     {
                         PromptUI.Instance.Show(lockedPrompt);
@@ -92,6 +109,11 @@ public class LockedDoor : Interactable
     {
         isOpen = true;
         HidePrompt();
+
+        if (audioSource != null && openSfx != null)
+        {
+            audioSource.PlayOneShot(openSfx);
+        }
 
         switch (animationType)
         {
