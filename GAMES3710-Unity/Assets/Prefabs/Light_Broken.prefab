@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 77cde052808b2c2499ab297dbfda9394, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.437
+      value: 8.068681
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 77cde052808b2c2499ab297dbfda9394, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.398
+      value: 2.813
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 77cde052808b2c2499ab297dbfda9394, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.04
+      value: 19.978077
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 77cde052808b2c2499ab297dbfda9394, type: 3}
       propertyPath: m_LocalRotation.w
@@ -143,8 +143,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1.2
-  MaxDistance: 20
+  MinDistance: 3
+  MaxDistance: 7
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -179,7 +179,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
