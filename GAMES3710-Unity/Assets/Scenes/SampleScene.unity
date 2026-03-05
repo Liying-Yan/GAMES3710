@@ -31813,8 +31813,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b4f69070e414940ab7a8bddbc7b5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SanityManager
-  maxSanity: 100000
-  currentSanity: 100000
+  maxSanity: 100
+  currentSanity: 50
   decayRate: 2
   pillCount: 0
   pillRestoreAmount: 30
