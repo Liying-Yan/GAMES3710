@@ -4644,7 +4644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.070129395, y: -60}
+  m_AnchoredPosition: {x: 0.07019043, y: -60}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &234181625
@@ -31815,7 +31815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SanityManager
   maxSanity: 100
   currentSanity: 50
-  decayRate: 2
+  decayRate: 0.5
   pillCount: 0
   pillRestoreAmount: 30
   lowSanityThreshold: 30
