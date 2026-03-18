@@ -6306,7 +6306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3874716694649670923, guid: a90f207f583fc3a4a94bedc3f2861c36, type: 3}
       propertyPath: MaxDistance
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3874716694649670923, guid: a90f207f583fc3a4a94bedc3f2861c36, type: 3}
       propertyPath: MinDistance
@@ -28358,7 +28358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HidePropAudioController
   mixer: {fileID: 24100000, guid: a54fc3c4aed489341ab711d799a4a59b, type: 2}
   parameterName: PropVol
-  hiddenVolume: -12
+  hiddenVolume: -15
   normalVolume: 0
 --- !u!4 &1868355714
 Transform:
