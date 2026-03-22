@@ -18291,7 +18291,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.711193, w: 0.70299685}
   m_LocalPosition: {x: -4.4121346, y: 9.955662, z: 0.132}
-  m_LocalScale: {x: 21.933561, y: 0.220808, z: -2.8083518}
+  m_LocalScale: {x: 21.933561, y: 0.220808, z: 2.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1491834090}
@@ -28692,7 +28692,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -6.412, y: 9.85, z: -0.13}
-  m_LocalScale: {x: 21.933561, y: 0.2, z: -3.985734}
+  m_LocalScale: {x: 21.933561, y: 0.2, z: 3.9}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1491834090}
@@ -28825,6 +28825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectiveUI
   panelWidth: 320
   panelPadding: 12
+  topOffset: 80
   goalFontSize: 14
   objectiveFontSize: 20
   subTaskFontSize: 16
@@ -35073,15 +35074,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalScale.x
-      value: -0.0052837925
+      value: 0.005283793
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalScale.y
-      value: -0.0052837925
+      value: 0.005283793
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalScale.z
-      value: -0.0052837925
+      value: 0.005283793
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35097,19 +35098,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.12133955
+      value: 0.15292159
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7675662
+      value: 0.6070627
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.61066085
+      value: -0.7704151
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.15235549
+      value: -0.12062534
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -35121,7 +35122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 102.988
+      value: -76.476
       objectReference: {fileID: 0}
     - target: {fileID: -217093590678833637, guid: 5725ffdfa0f0ed54a943289742db3631, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

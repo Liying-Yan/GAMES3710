@@ -46,10 +46,20 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _agent.enabled = false;
     }
 
     private void Start()
     {
+        _agent.enabled = true;
+
+        if (!_agent.isOnNavMesh)
+        {
+            Debug.LogError($"EnemyAI: {name} is not on NavMesh. Check its position or re-bake the NavMesh.");
+            enabled = false;
+            return;
+        }
+
         if (initialPath != null)
         {
             SetPath(initialPath);
@@ -59,6 +69,8 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        if (!_agent.isOnNavMesh) return;
+
         CheckVision();
 
         switch (_currentState)
@@ -143,7 +155,7 @@ public class EnemyAI : MonoBehaviour
         {
             case EnemyState.Patrol:
                 _agent.speed = patrolSpeed;
-                if (_currentPath != null && _currentPath.WaypointCount > 0)
+                if (_currentPath != null && _currentPath.WaypointCount > 0 && _agent.isOnNavMesh)
                 {
                     _agent.SetDestination(_currentPath.GetWaypoint(_currentWaypointIndex));
                 }
@@ -161,7 +173,7 @@ public class EnemyAI : MonoBehaviour
 
     private void UpdateChase()
     {
-        if (_player != null)
+        if (_player != null && _agent.isOnNavMesh)
         {
             _lastKnownPlayerPosition = _player.position;
             _agent.SetDestination(_player.position);
@@ -195,7 +207,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 randomDirection = Random.insideUnitSphere * searchRadius;
         randomDirection += _lastKnownPlayerPosition;
 
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, searchRadius, NavMesh.AllAreas))
+        if (_agent.isOnNavMesh && NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, searchRadius, NavMesh.AllAreas))
         {
             _agent.SetDestination(hit.position);
         }
@@ -205,7 +217,7 @@ public class EnemyAI : MonoBehaviour
     {
         _currentPath = path;
         _currentWaypointIndex = 0;
-        if (_currentPath.WaypointCount > 0)
+        if (_currentPath.WaypointCount > 0 && _agent.isOnNavMesh)
         {
             _agent.SetDestination(_currentPath.GetWaypoint(0));
         }

@@ -134,6 +134,14 @@ public class LockedDoor : Interactable
 
     private IEnumerator SwingDoorCoroutine()
     {
+        // Permanently disable door colliders - door is open, no collision needed
+        var colliders = doorTransform.GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+        {
+            if (!col.isTrigger)
+                col.enabled = false;
+        }
+
         Quaternion startRot = doorTransform.localRotation;
         Quaternion endRot = startRot * Quaternion.Euler(0f, swingAngle, 0f);
         float elapsed = 0f;
