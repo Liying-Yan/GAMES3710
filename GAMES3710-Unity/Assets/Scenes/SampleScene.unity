@@ -14816,7 +14816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlackboardHintTrigger
   player: {fileID: 3239944139789812198}
   hidePlane: {fileID: 1646537049}
-  showDistance: 8
+  showDistance: 5
   audioSource: {fileID: 573608349}
   appearSound: {fileID: 8300000, guid: 29ebefd31f4cc7d4e929e747feacf78f, type: 3}
 --- !u!82 &573608349
