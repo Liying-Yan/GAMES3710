@@ -63,6 +63,12 @@ namespace StarterAssets
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
 
+		[Header("External Lock")]
+		[Tooltip("When true, player movement is disabled")]
+		public bool LockMovement;
+		[Tooltip("When true, camera rotation is disabled")]
+		public bool LockCamera;
+
 		// cinemachine
 		private float _cinemachineTargetPitch;
 
@@ -191,6 +197,8 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
+			if (LockCamera) return;
+
 			// if there is an input
 			if (_input.look.sqrMagnitude >= _threshold)
 			{
@@ -213,6 +221,8 @@ namespace StarterAssets
 
 		private void Move()
 		{
+			if (LockMovement) return;
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint && !_isCrouching ? SprintSpeed : MoveSpeed;
 			if (_isCrouching) targetSpeed *= CrouchSpeedMultiplier;
@@ -305,6 +315,16 @@ namespace StarterAssets
 			{
 				_verticalVelocity += Gravity * Time.deltaTime;
 			}
+		}
+
+		/// <summary>
+		/// Set the internal pitch value so external systems (e.g. hiding spots)
+		/// can synchronise camera state before returning control.
+		/// </summary>
+		public void SetCameraPitch(float pitch)
+		{
+			_cinemachineTargetPitch = pitch;
+			CinemachineCameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
 		}
 
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
