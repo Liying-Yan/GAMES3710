@@ -51,6 +51,7 @@ public class CabinetHidingSpot : MonoBehaviour
     private FirstPersonController _fps;
     private StarterAssetsInputs _input;
     private CharacterController _charCtrl;
+    private PlayerInput _playerInput;
     private GameObject _cinemachineTarget;
 
     // state
@@ -93,12 +94,12 @@ public class CabinetHidingSpot : MonoBehaviour
         if (_isAnimating) return;
 
         // toggle hide
-        if (_playerInRange && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
-            if (!_isHiding)
-                StartCoroutine(EnterCabinet());
-            else
+            if (_isHiding)
                 StartCoroutine(ExitCabinet());
+            else if (_playerInRange)
+                StartCoroutine(EnterCabinet());
         }
 
         // handle restricted look while hiding
@@ -135,7 +136,7 @@ public class CabinetHidingSpot : MonoBehaviour
         Vector3 startPos = _fps.transform.position;
         Quaternion startRot = _fps.transform.rotation;
         Vector3 targetPos = cabinetBody.TransformPoint(hidePositionOffset);
-        targetPos.y = _entryGroundY; // keep player at ground level
+        targetPos.y = _entryGroundY + hidePositionOffset.y;
         _cabinetForwardRot = Quaternion.LookRotation(transform.forward, Vector3.up);
 
         yield return StartCoroutine(MovePlayer(startPos, targetPos, startRot, _cabinetForwardRot, cameraDuration));
@@ -211,9 +212,14 @@ public class CabinetHidingSpot : MonoBehaviour
     // ──────────────────────────────────────────────
     private void HandleHidingLook()
     {
+        // continuously sync position so hidePositionOffset can be tweaked at runtime
+        Vector3 pos = cabinetBody.TransformPoint(hidePositionOffset);
+        pos.y = _entryGroundY + hidePositionOffset.y;
+        _fps.transform.position = pos;
+
         if (_input == null || _input.look.sqrMagnitude < 0.01f) return;
 
-        float deltaTimeMul = _fps.GetComponent<PlayerInput>().currentControlScheme == "KeyboardMouse"
+        float deltaTimeMul = (_playerInput != null && _playerInput.currentControlScheme == "KeyboardMouse")
             ? 1.0f
             : Time.deltaTime;
 
@@ -349,6 +355,7 @@ public class CabinetHidingSpot : MonoBehaviour
         _fps = player.GetComponent<FirstPersonController>();
         _input = player.GetComponent<StarterAssetsInputs>();
         _charCtrl = player.GetComponent<CharacterController>();
+        _playerInput = player.GetComponent<PlayerInput>();
         _cinemachineTarget = _fps.CinemachineCameraTarget;
     }
 }
