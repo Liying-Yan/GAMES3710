@@ -16,6 +16,7 @@ public class BlackboardHintTrigger : MonoBehaviour
     public AudioClip appearSound;
 
     private bool isShowing = false;
+    private bool hasTriggered = false; // 新增
 
     void Start()
     {
@@ -35,20 +36,16 @@ public class BlackboardHintTrigger : MonoBehaviour
         float distance = Vector3.Distance(player.position, transform.position);
         bool shouldShow = distance <= showDistance;
 
-        if (shouldShow && !isShowing)
+        if (shouldShow && !isShowing && !hasTriggered)
         {
             hidePlane.SetActive(true);
             isShowing = true;
+            hasTriggered = true;
 
             if (audioSource != null && appearSound != null)
             {
                 audioSource.PlayOneShot(appearSound);
             }
-        }
-        else if (!shouldShow && isShowing)
-        {
-            hidePlane.SetActive(false);
-            isShowing = false;
         }
     }
 }

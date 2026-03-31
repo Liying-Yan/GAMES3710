@@ -72808,7 +72808,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 14.16, y: 4.81, z: 7.2}
+    m_Scale: {x: 17.1, y: 5.1, z: 7.95}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -73445,7 +73445,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 0}
-        key1: {r: 1, g: 1, b: 1, a: 0.45490196}
+        key1: {r: 1, g: 1, b: 1, a: 0.27058825}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -73461,7 +73461,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 28399
+        atime1: 23901
         atime2: 65535
         atime3: 65535
         atime4: 0
@@ -76901,7 +76901,7 @@ Transform:
   m_GameObject: {fileID: 1685848085}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 6.487, y: 0.816, z: 19.841}
+  m_LocalPosition: {x: 5.697, y: 1.115, z: 20.683}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
