@@ -212,6 +212,7 @@ public class InteractionHighlight : MonoBehaviour
                     var cmd = CommandBufferHelpers.GetNativeCommandBuffer(context.cmd);
                     cmd.SetRenderTarget(data.colorTarget, data.depthTarget);
 
+                    // Pass 0: fill stencil with mesh silhouettes
                     foreach (var r in data.renderers)
                     {
                         if (r == null) continue;
@@ -219,18 +220,37 @@ public class InteractionHighlight : MonoBehaviour
                         for (int i = 0; i < count; i++)
                             cmd.DrawRenderer(r, data.material, i, 0);
                     }
+
+                    // Pass 1: draw outlines where stencil != 1
+                    foreach (var r in data.renderers)
+                    {
+                        if (r == null) continue;
+                        int count = GetSubmeshCount(r);
+                        for (int i = 0; i < count; i++)
+                            cmd.DrawRenderer(r, data.material, i, 1);
+                    }
                 });
             }
         }
 
         private void DrawOutline(CommandBuffer cmd)
         {
+            // Pass 0: fill stencil
             foreach (var r in _renderers)
             {
                 if (r == null) continue;
                 int count = GetSubmeshCount(r);
                 for (int i = 0; i < count; i++)
                     cmd.DrawRenderer(r, _material, i, 0);
+            }
+
+            // Pass 1: draw outlines
+            foreach (var r in _renderers)
+            {
+                if (r == null) continue;
+                int count = GetSubmeshCount(r);
+                for (int i = 0; i < count; i++)
+                    cmd.DrawRenderer(r, _material, i, 1);
             }
         }
 

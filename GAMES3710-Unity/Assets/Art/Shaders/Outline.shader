@@ -12,14 +12,54 @@ Shader "Custom/Outline"
             "RenderPipeline" = "UniversalPipeline"
         }
 
+        // ── Pass 0: Stencil fill ──────────────────────
         Pass
         {
-            Name "Outline"
+            Name "OutlineStencil"
+            Tags { "LightMode" = "OutlineStencil" }
+
+            Cull Back
+            ZWrite Off
+            ZTest LEqual
+            ColorMask 0
+
+            Stencil
+            {
+                Ref 1
+                Comp Always
+                Pass Replace
+            }
+
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            float4 vert(float4 positionOS : POSITION) : SV_POSITION
+            {
+                return TransformObjectToHClip(positionOS.xyz);
+            }
+
+            half4 frag() : SV_Target { return 0; }
+            ENDHLSL
+        }
+
+        // ── Pass 1: Outline ──────────────────────────
+        Pass
+        {
+            Name "OutlineEffect"
             Tags { "LightMode" = "OutlineEffect" }
 
             Cull Front
             ZWrite On
             ZTest LEqual
+
+            Stencil
+            {
+                Ref 1
+                Comp NotEqual
+            }
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -55,7 +95,6 @@ Shader "Custom/Outline"
                 float3 normalWS = TransformObjectToWorldNormal(normalOS);
                 float3 normalVS = mul((float3x3)UNITY_MATRIX_V, normalWS);
 
-                // Project through P so the direction matches the actual screen mapping
                 float4 normalCS = mul(UNITY_MATRIX_P, float4(normalVS, 0.0));
                 float2 dir = normalCS.xy;
 
@@ -64,7 +103,6 @@ Shader "Custom/Outline"
                 {
                     dir *= rsqrt(dirLenSq);
 
-                    // Correct aspect ratio: shrink X so pixel width is uniform
                     float aspectInv = _ScreenParams.y / _ScreenParams.x;
                     posCS.xy += dir * _OutlineWidth * posCS.w * float2(aspectInv, 1.0);
                 }
