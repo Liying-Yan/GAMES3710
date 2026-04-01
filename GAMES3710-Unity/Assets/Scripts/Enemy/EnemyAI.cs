@@ -185,7 +185,7 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Search:
                 _agent.speed = searchSpeed;
                 _searchTimer = searchDuration;
-                SetRandomSearchDestination();
+                _agent.SetDestination(_lastKnownPlayerPosition);
                 break;
             case EnemyState.CheckHidingSpot:
                 _agent.speed = chaseSpeed;
