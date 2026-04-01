@@ -9,6 +9,9 @@ public class DeskVoiceTrigger : MonoBehaviour
     [Header("Settings")]
     public float triggerDistance = 3f;
 
+    [Header("Subtitle")]
+    [TextArea] public string subtitle;
+
     private bool hasPlayed = false;
 
     void Update()
@@ -22,6 +25,8 @@ public class DeskVoiceTrigger : MonoBehaviour
         {
             hasPlayed = true;
             audioSource.Play();
+            if (!string.IsNullOrEmpty(subtitle) && SubtitleUI.Instance != null)
+                SubtitleUI.Instance.Show(subtitle, audioSource);
         }
     }
 }

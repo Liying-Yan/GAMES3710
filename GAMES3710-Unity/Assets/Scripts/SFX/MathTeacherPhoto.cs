@@ -10,6 +10,9 @@ public class PhotoVoiceTrigger : MonoBehaviour
     public float triggerDistance = 3f;
     public bool playOnlyOnce = true;
 
+    [Header("Subtitle")]
+    [TextArea] public string subtitle;
+
     private bool hasPlayed = false;
 
     void Update()
@@ -25,6 +28,8 @@ public class PhotoVoiceTrigger : MonoBehaviour
             {
                 audioSource.Play();
                 hasPlayed = true;
+                if (!string.IsNullOrEmpty(subtitle) && SubtitleUI.Instance != null)
+                    SubtitleUI.Instance.Show(subtitle, audioSource);
             }
         }
     }
