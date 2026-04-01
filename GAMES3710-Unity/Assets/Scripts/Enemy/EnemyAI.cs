@@ -5,7 +5,8 @@ public enum EnemyState
 {
     Patrol,
     Chase,
-    Search
+    Search,
+    CheckHidingSpot
 }
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -33,6 +34,10 @@ public class EnemyAI : MonoBehaviour
     public float searchDuration = 5f;
     public float searchRadius = 8f;
 
+    [Header("Hiding Spot Check")]
+    [Tooltip("Enable to let this enemy check hiding spots when it sees the player hide (requires spot-side toggle too)")]
+    public bool canCheckHidingSpots = false;
+
     private NavMeshAgent _agent;
     private EnemyState _currentState = EnemyState.Patrol;
 
@@ -42,6 +47,8 @@ public class EnemyAI : MonoBehaviour
     private Transform _player;
     private Vector3 _lastKnownPlayerPosition;
     private float _searchTimer;
+
+    private ICheckableHidingSpot _targetSpot;
 
     private void Awake()
     {
@@ -84,6 +91,9 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Search:
                 UpdateSearch();
                 break;
+            case EnemyState.CheckHidingSpot:
+                UpdateCheckHidingSpot();
+                break;
         }
     }
 
@@ -93,7 +103,16 @@ public class EnemyAI : MonoBehaviour
         {
             if (_currentState == EnemyState.Chase)
             {
-                SetState(EnemyState.Search);
+                var spot = PlayerHideState.Instance.CurrentSpot;
+                if (canCheckHidingSpots && spot != null && spot.CanBeChecked)
+                {
+                    _targetSpot = spot;
+                    SetState(EnemyState.CheckHidingSpot);
+                }
+                else
+                {
+                    SetState(EnemyState.Search);
+                }
             }
             return;
         }
@@ -168,6 +187,11 @@ public class EnemyAI : MonoBehaviour
                 _searchTimer = searchDuration;
                 SetRandomSearchDestination();
                 break;
+            case EnemyState.CheckHidingSpot:
+                _agent.speed = chaseSpeed;
+                if (_targetSpot != null && _targetSpot.CheckTarget != null)
+                    _agent.SetDestination(_targetSpot.CheckTarget.position);
+                break;
         }
     }
 
@@ -199,6 +223,21 @@ public class EnemyAI : MonoBehaviour
         if (!_agent.pathPending && _agent.remainingDistance <= waypointReachThreshold)
         {
             SetRandomSearchDestination();
+        }
+    }
+
+    private void UpdateCheckHidingSpot()
+    {
+        if (_targetSpot == null || _targetSpot.CheckTarget == null)
+        {
+            SetState(EnemyState.Search);
+            return;
+        }
+
+        if (!_agent.pathPending && _agent.remainingDistance <= waypointReachThreshold)
+        {
+            _targetSpot.OnEnemyCheck();
+            _targetSpot = null;
         }
     }
 

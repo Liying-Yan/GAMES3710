@@ -4,8 +4,12 @@ using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using StarterAssets;
 
-public class DeskHidingSpot : MonoBehaviour
+public class DeskHidingSpot : MonoBehaviour, ICheckableHidingSpot
 {
+    [Header("Enemy Check")]
+    [Tooltip("Allow enemies to find the player under this desk")]
+    public bool canBeChecked = false;
+
     [Header("Desk References")]
     [Tooltip("Child transform whose position = hiding target, forward (Z) = view direction")]
     public Transform hidePoint;
@@ -106,6 +110,8 @@ public class DeskHidingSpot : MonoBehaviour
 
         // immediately invisible to enemy
         SetHideState(true);
+        if (PlayerHideState.Instance != null)
+            PlayerHideState.Instance.CurrentSpot = this;
 
         // switch near clip
         _originalNearClip = Camera.main.nearClipPlane;
@@ -276,6 +282,18 @@ public class DeskHidingSpot : MonoBehaviour
             if (breathAudio != null) breathAudio.Stop();
             if (mixer != null) mixer.SetFloat("PropVol", 0f);
         }
+    }
+
+    // ──────────────────────────────────────────────
+    // ICheckableHidingSpot
+    // ──────────────────────────────────────────────
+    public bool CanBeChecked => canBeChecked;
+    public Transform CheckTarget => exitPoint != null ? exitPoint : transform;
+
+    public void OnEnemyCheck()
+    {
+        if (GameOverUI.Instance != null)
+            GameOverUI.Instance.Show();
     }
 
     // ──────────────────────────────────────────────

@@ -4,8 +4,12 @@ using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using StarterAssets;
 
-public class CabinetHidingSpot : MonoBehaviour
+public class CabinetHidingSpot : MonoBehaviour, ICheckableHidingSpot
 {
+    [Header("Enemy Check")]
+    [Tooltip("Allow enemies to open this cabinet and catch the player")]
+    public bool canBeChecked = false;
+
     [Header("Cabinet References")]
     [Tooltip("The cabinet body child – player camera moves to its position")]
     public Transform cabinetBody;
@@ -115,6 +119,8 @@ public class CabinetHidingSpot : MonoBehaviour
 
         // immediately hide from enemy vision (before animation starts)
         SetHideState(true);
+        if (PlayerHideState.Instance != null)
+            PlayerHideState.Instance.CurrentSpot = this;
 
         // switch near clip
         _originalNearClip = Camera.main.nearClipPlane;
@@ -298,6 +304,28 @@ public class CabinetHidingSpot : MonoBehaviour
     {
         if (doorAudioSource != null && clip != null)
             doorAudioSource.PlayOneShot(clip);
+    }
+
+    // ──────────────────────────────────────────────
+    // ICheckableHidingSpot
+    // ──────────────────────────────────────────────
+    public bool CanBeChecked => canBeChecked;
+    public Transform CheckTarget => exitPoint;
+
+    public void OnEnemyCheck()
+    {
+        StartCoroutine(EnemyCheckSequence());
+    }
+
+    private IEnumerator EnemyCheckSequence()
+    {
+        // open door
+        PlayDoorSfx(doorOpenClip);
+        yield return StartCoroutine(AnimateDoor(0f, doorOpenAngle, doorDuration));
+
+        // game over
+        if (GameOverUI.Instance != null)
+            GameOverUI.Instance.Show();
     }
 
     // ──────────────────────────────────────────────

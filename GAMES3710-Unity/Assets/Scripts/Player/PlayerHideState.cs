@@ -6,6 +6,9 @@ public class PlayerHideState : MonoBehaviour
 
     public bool IsHiding { get; private set; }
 
+    /// <summary>The hiding spot the player is currently in (null when not hiding or spot is not checkable).</summary>
+    public ICheckableHidingSpot CurrentSpot { get; set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -21,5 +24,6 @@ public class PlayerHideState : MonoBehaviour
     public void SetHiding(bool hiding)
     {
         IsHiding = hiding;
+        if (!hiding) CurrentSpot = null;
     }
 }

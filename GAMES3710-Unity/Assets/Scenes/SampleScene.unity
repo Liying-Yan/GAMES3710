@@ -1448,6 +1448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 43721276}
   cabinetDoor: {fileID: 43721274}
   exitPoint: {fileID: 2112807712}
@@ -1455,6 +1456,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -1811,6 +1813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 60101630}
   cabinetDoor: {fileID: 60101628}
   exitPoint: {fileID: 210157196}
@@ -1818,6 +1821,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -5813,6 +5817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 173576411}
   cabinetDoor: {fileID: 173576409}
   exitPoint: {fileID: 709208883}
@@ -5820,6 +5825,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -12892,6 +12898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 340134004}
   cabinetDoor: {fileID: 340134002}
   exitPoint: {fileID: 814081247}
@@ -12899,6 +12906,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -13461,6 +13469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 351178352}
   cabinetDoor: {fileID: 351178350}
   exitPoint: {fileID: 1760805523}
@@ -13468,6 +13477,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -16756,6 +16766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 429631403}
   cabinetDoor: {fileID: 429631401}
   exitPoint: {fileID: 816953027}
@@ -16763,6 +16774,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -23026,6 +23038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 478137325}
   cabinetDoor: {fileID: 478137323}
   exitPoint: {fileID: 1776802346}
@@ -23033,6 +23046,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -24797,6 +24811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 514103659}
   cabinetDoor: {fileID: 514103657}
   exitPoint: {fileID: 753753134}
@@ -24804,6 +24819,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -27904,6 +27920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 569985193}
   cabinetDoor: {fileID: 569985191}
   exitPoint: {fileID: 319695384}
@@ -27911,6 +27928,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -31007,6 +31025,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 630390433}
   cabinetDoor: {fileID: 630390431}
   exitPoint: {fileID: 878685650}
@@ -31014,6 +31033,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -32630,6 +32650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 660341204}
   cabinetDoor: {fileID: 660341202}
   exitPoint: {fileID: 415832161}
@@ -32637,6 +32658,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -34233,6 +34255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 688134684}
   cabinetDoor: {fileID: 688134682}
   exitPoint: {fileID: 322752214}
@@ -34240,6 +34263,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -35315,6 +35339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 726647369}
   cabinetDoor: {fileID: 726647367}
   exitPoint: {fileID: 2043260176}
@@ -35322,6 +35347,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -35731,6 +35757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 734952252}
   cabinetDoor: {fileID: 734952250}
   exitPoint: {fileID: 987805335}
@@ -35738,6 +35765,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -37533,6 +37561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 779684068}
   cabinetDoor: {fileID: 779684066}
   exitPoint: {fileID: 905513544}
@@ -37540,6 +37569,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -41191,6 +41221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 874722589}
   cabinetDoor: {fileID: 874722587}
   exitPoint: {fileID: 276718373}
@@ -41198,6 +41229,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -41761,6 +41793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 899963161}
   cabinetDoor: {fileID: 899963159}
   exitPoint: {fileID: 1446397158}
@@ -41768,6 +41801,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -44668,6 +44702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 962619836}
   cabinetDoor: {fileID: 962619834}
   exitPoint: {fileID: 1392630490}
@@ -44675,6 +44710,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -44961,6 +44997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 963170046}
   cabinetDoor: {fileID: 963170044}
   exitPoint: {fileID: 206431869}
@@ -44968,6 +45005,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -46337,6 +46375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 985946649}
   cabinetDoor: {fileID: 985946647}
   exitPoint: {fileID: 745857195}
@@ -46344,6 +46383,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -46609,6 +46649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1571236668}
   cabinetDoor: {fileID: 1499289448}
   exitPoint: {fileID: 955113422}
@@ -46616,6 +46657,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -55617,6 +55659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1090797340}
   cabinetDoor: {fileID: 1090797338}
   exitPoint: {fileID: 1696566711}
@@ -55624,6 +55667,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -56137,6 +56181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1104414747}
   cabinetDoor: {fileID: 1104414745}
   exitPoint: {fileID: 257614405}
@@ -56144,6 +56189,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -60252,6 +60298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1189750243}
   cabinetDoor: {fileID: 1189750241}
   exitPoint: {fileID: 245781287}
@@ -60259,6 +60306,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -63200,6 +63248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1240950140}
   cabinetDoor: {fileID: 1240950138}
   exitPoint: {fileID: 1567798622}
@@ -63207,6 +63256,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -63859,6 +63909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1271312398}
   cabinetDoor: {fileID: 1271312396}
   exitPoint: {fileID: 1155359478}
@@ -63866,6 +63917,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -66228,6 +66280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1324857698}
   cabinetDoor: {fileID: 1324857696}
   exitPoint: {fileID: 150607434}
@@ -66235,6 +66288,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -67053,6 +67107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 254900735}
   cabinetDoor: {fileID: 1902249594}
   exitPoint: {fileID: 1145406169}
@@ -67060,6 +67115,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -68779,12 +68835,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 970aec4f2d37d6e469f477c1125869c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeskHidingSpot
+  canBeChecked: 0
   hidePoint: {fileID: 881855850}
   exitPoint: {fileID: 1797005872}
   crouchDuration: 0.4
   moveDuration: 0.5
   rotateDuration: 0.3
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -71324,6 +71382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1450919531}
   cabinetDoor: {fileID: 1450919529}
   exitPoint: {fileID: 58775117}
@@ -71331,6 +71390,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -72014,6 +72074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1478357346}
   cabinetDoor: {fileID: 1478357344}
   exitPoint: {fileID: 1415407218}
@@ -72021,6 +72082,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -77800,6 +77862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1644638608}
   cabinetDoor: {fileID: 1644638606}
   exitPoint: {fileID: 1678091050}
@@ -77807,6 +77870,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -87645,6 +87709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1747014518}
   cabinetDoor: {fileID: 1747014516}
   exitPoint: {fileID: 1764710465}
@@ -87652,6 +87717,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -89174,6 +89240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1775039432}
   cabinetDoor: {fileID: 1775039430}
   exitPoint: {fileID: 525483121}
@@ -89181,6 +89248,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -92354,6 +92422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1280446146}
   cabinetDoor: {fileID: 123498269}
   exitPoint: {fileID: 413465666}
@@ -92361,6 +92430,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -93239,6 +93309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1881085599}
   cabinetDoor: {fileID: 1881085597}
   exitPoint: {fileID: 807161039}
@@ -93246,6 +93317,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -95930,6 +96002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 0
   cabinetBody: {fileID: 1947256195}
   cabinetDoor: {fileID: 1947256193}
   exitPoint: {fileID: 388054266}
@@ -95937,6 +96010,7 @@ MonoBehaviour:
   doorDuration: 0.5
   cameraDuration: 0.5
   hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
@@ -104795,6 +104869,10 @@ PrefabInstance:
     - target: {fileID: 190348308627385177, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: searchSpeed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 190348308627385177, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
+      propertyPath: canCheckHidingSpots
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MaxDistance

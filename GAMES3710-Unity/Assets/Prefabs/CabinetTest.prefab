@@ -79,13 +79,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c50d1d3f0f8fb4e8f2889735eaa590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CabinetHidingSpot
+  canBeChecked: 1
   cabinetBody: {fileID: 668294531830517626}
   cabinetDoor: {fileID: 3256597468999776238}
   exitPoint: {fileID: 1143660814744836551}
   doorOpenAngle: 90
   doorDuration: 0.5
   cameraDuration: 0.5
-  hidePositionOffset: {x: 0, y: 0, z: 0}
+  hidePositionOffset: {x: 0, y: 0.1, z: -0.2}
+  hidingNearClip: 0.01
   maxYaw: 45
   maxPitch: 30
   enterPrompt: Press E to hide
