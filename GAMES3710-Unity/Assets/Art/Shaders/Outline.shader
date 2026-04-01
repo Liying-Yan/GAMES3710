@@ -3,20 +3,20 @@ Shader "Custom/Outline"
     Properties
     {
         _OutlineColor ("Outline Color", Color) = (1, 1, 1, 1)
-        _OutlineWidth ("Outline Width", Range(0, 0.1)) = 0.03
+        _OutlineWidth ("Outline Width", Range(0, 0.02)) = 0.005
     }
     SubShader
     {
         Tags
         {
-            "RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
-            "Queue" = "Geometry+1"
         }
 
         Pass
         {
             Name "Outline"
+            Tags { "LightMode" = "OutlineEffect" }
+
             Cull Front
             ZWrite On
             ZTest LEqual
@@ -31,7 +31,7 @@ Shader "Custom/Outline"
             {
                 float4 positionOS     : POSITION;
                 float3 normalOS       : NORMAL;
-                float3 smoothNormalOS : TEXCOORD3; // baked smooth normals
+                float3 smoothNormalOS : TEXCOORD3;
             };
 
             struct Varyings
@@ -46,19 +46,36 @@ Shader "Custom/Outline"
             {
                 Varyings output;
 
-                // Use baked smooth normals if available, otherwise fall back to mesh normals
-                float3 extrude = dot(input.smoothNormalOS, input.smoothNormalOS) > 0.001
+                float3 normalOS = dot(input.smoothNormalOS, input.smoothNormalOS) > 0.001
                     ? normalize(input.smoothNormalOS)
                     : normalize(input.normalOS);
 
-                float3 posOS = input.positionOS.xyz + extrude * _OutlineWidth;
-                output.positionCS = TransformObjectToHClip(posOS);
+                float4 posCS = TransformObjectToHClip(input.positionOS.xyz);
+
+                float3 normalWS = TransformObjectToWorldNormal(normalOS);
+                float3 normalVS = mul((float3x3)UNITY_MATRIX_V, normalWS);
+
+                // Project through P so the direction matches the actual screen mapping
+                float4 normalCS = mul(UNITY_MATRIX_P, float4(normalVS, 0.0));
+                float2 dir = normalCS.xy;
+
+                float dirLenSq = dot(dir, dir);
+                if (dirLenSq > 1e-6)
+                {
+                    dir *= rsqrt(dirLenSq);
+
+                    // Correct aspect ratio: shrink X so pixel width is uniform
+                    float aspectInv = _ScreenParams.y / _ScreenParams.x;
+                    posCS.xy += dir * _OutlineWidth * posCS.w * float2(aspectInv, 1.0);
+                }
+
+                output.positionCS = posCS;
                 return output;
             }
 
-            float4 frag(Varyings input) : SV_Target
+            half4 frag(Varyings input) : SV_Target
             {
-                return _OutlineColor;
+                return half4(_OutlineColor.rgb, 1);
             }
             ENDHLSL
         }
