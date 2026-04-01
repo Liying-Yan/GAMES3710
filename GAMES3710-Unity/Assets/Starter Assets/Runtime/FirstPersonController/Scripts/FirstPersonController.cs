@@ -161,6 +161,8 @@ namespace StarterAssets
 
 		private void UpdateCrouch()
 		{
+			if (LockMovement) return;
+
 			if (_input.crouch)
 			{
 				_isCrouching = true;

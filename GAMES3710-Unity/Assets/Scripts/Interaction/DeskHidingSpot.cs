@@ -4,26 +4,24 @@ using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using StarterAssets;
 
-public class CabinetHidingSpot : MonoBehaviour
+public class DeskHidingSpot : MonoBehaviour
 {
-    [Header("Cabinet References")]
-    [Tooltip("The cabinet body child – player camera moves to its position")]
-    public Transform cabinetBody;
-    [Tooltip("The cabinet door child – pivot must be at the hinge")]
-    public Transform cabinetDoor;
-    [Tooltip("Where the player appears after exiting (place in front of the cabinet)")]
+    [Header("Desk References")]
+    [Tooltip("Child transform whose position = hiding target, forward (Z) = view direction")]
+    public Transform hidePoint;
+    [Tooltip("Optional exit point. If empty, player returns to entry position")]
     public Transform exitPoint;
 
-    [Header("Door Settings")]
-    [Tooltip("Door open angle around local Y axis (positive = clockwise)")]
-    public float doorOpenAngle = 90f;
-    [Tooltip("Duration of door open/close animation")]
-    public float doorDuration = 0.5f;
+    [Header("Animation Durations")]
+    [Tooltip("Duration of the crouch / stand-up phase")]
+    public float crouchDuration = 0.4f;
+    [Tooltip("Duration of the horizontal slide in / out")]
+    public float moveDuration = 0.5f;
+    [Tooltip("Duration of the turn-around phase")]
+    public float rotateDuration = 0.3f;
 
-    [Header("Camera Transition")]
-    [Tooltip("Duration of camera move in/out")]
-    public float cameraDuration = 0.5f;
-    [Tooltip("Offset from cabinet body pivot in body's local space (tweak to fine-tune hiding position)")]
+    [Header("Hiding Position")]
+    [Tooltip("Offset from hidePoint pivot in its local space")]
     public Vector3 hidePositionOffset = Vector3.zero;
 
     [Header("Camera")]
@@ -31,9 +29,7 @@ public class CabinetHidingSpot : MonoBehaviour
     public float hidingNearClip = 0.01f;
 
     [Header("Hiding Look Clamp")]
-    [Tooltip("Max yaw deviation (left/right) while hiding")]
     public float maxYaw = 45f;
-    [Tooltip("Max pitch deviation (up/down) while hiding")]
     public float maxPitch = 30f;
 
     [Header("Prompt Settings")]
@@ -46,12 +42,7 @@ public class CabinetHidingSpot : MonoBehaviour
     [Header("Audio Mixer")]
     public AudioMixer mixer;
 
-    [Header("SFX")]
-    public AudioSource doorAudioSource;
-    public AudioClip doorOpenClip;
-    public AudioClip doorCloseClip;
-
-    // runtime refs (found automatically)
+    // runtime refs
     private FirstPersonController _fps;
     private StarterAssetsInputs _input;
     private CharacterController _charCtrl;
@@ -66,10 +57,15 @@ public class CabinetHidingSpot : MonoBehaviour
     // hiding look
     private float _hidingYaw;
     private float _hidingPitch;
-    private Quaternion _cabinetForwardRot;
+    private Quaternion _hideForwardRot;
 
-    // player ground height when entering (used for safe exit)
+    // entry snapshot
     private float _entryGroundY;
+    private Vector3 _entryPosition;
+    private Quaternion _entryRotation;
+
+    // camera local Y offset (so hidePoint = camera position, not feet position)
+    private float _cameraOffsetY;
 
     // original near clip to restore on exit
     private float _originalNearClip;
@@ -81,79 +77,74 @@ public class CabinetHidingSpot : MonoBehaviour
             breathAudio.playOnAwake = false;
             breathAudio.loop = true;
         }
-
     }
 
     private void Update()
     {
         if (_isAnimating) return;
 
-        // toggle hide
         if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
             if (_isHiding)
-                StartCoroutine(ExitCabinet());
+                StartCoroutine(ExitDesk());
             else if (_playerInRange)
-                StartCoroutine(EnterCabinet());
+                StartCoroutine(EnterDesk());
         }
 
-        // handle restricted look while hiding
         if (_isHiding && !_isAnimating)
-        {
             HandleHidingLook();
-        }
     }
 
     // ──────────────────────────────────────────────
-    // Enter
+    // Enter: crouch → slide in → turn
     // ──────────────────────────────────────────────
-    private IEnumerator EnterCabinet()
+    private IEnumerator EnterDesk()
     {
         _isAnimating = true;
         CachePlayerRefs();
         HidePrompt();
 
-        // immediately hide from enemy vision (before animation starts)
+        // immediately invisible to enemy
         SetHideState(true);
 
         // switch near clip
         _originalNearClip = Camera.main.nearClipPlane;
         Camera.main.nearClipPlane = hidingNearClip;
 
-        // lock everything
         _fps.LockMovement = true;
         _fps.LockCamera = true;
 
-        // disable player collider so door/body won't push the player
+        // snapshot entry state
         _entryGroundY = _fps.transform.position.y;
+        _entryPosition = _fps.transform.position;
+        _entryRotation = _fps.transform.rotation;
+        _cameraOffsetY = _cinemachineTarget.transform.localPosition.y;
+
         _charCtrl.enabled = false;
 
-        // 1. open door
-        PlayDoorSfx(doorOpenClip);
-        yield return StartCoroutine(AnimateDoor(0f, doorOpenAngle, doorDuration));
+        // hidePoint = intended camera position; lower player by cameraOffsetY so camera lands there
+        Vector3 hidePos = hidePoint.TransformPoint(hidePositionOffset);
+        float targetPlayerY = hidePos.y - _cameraOffsetY;
+        _hideForwardRot = Quaternion.LookRotation(hidePoint.forward, Vector3.up);
 
-        // 2. move player into cabinet
+        // 1. crouch – lower Y while keeping XZ
+        Vector3 crouchPos = new Vector3(
+            _fps.transform.position.x,
+            targetPlayerY,
+            _fps.transform.position.z);
+        yield return StartCoroutine(AnimatePosition(_fps.transform.position, crouchPos, crouchDuration));
 
-        Vector3 startPos = _fps.transform.position;
-        Quaternion startRot = _fps.transform.rotation;
-        Vector3 targetPos = cabinetBody.TransformPoint(hidePositionOffset);
-        targetPos.y = _entryGroundY + hidePositionOffset.y;
-        _cabinetForwardRot = Quaternion.LookRotation(transform.forward, Vector3.up);
+        // 2. slide in – move XZ while keeping Y
+        Vector3 slideTarget = new Vector3(hidePos.x, targetPlayerY, hidePos.z);
+        yield return StartCoroutine(AnimatePosition(crouchPos, slideTarget, moveDuration));
 
-        yield return StartCoroutine(MovePlayer(startPos, targetPos, startRot, _cabinetForwardRot, cameraDuration));
+        // 3. turn to face hide direction
+        yield return StartCoroutine(AnimateRotation(_fps.transform.rotation, _hideForwardRot, rotateDuration));
 
-        // sync pitch to 0 (looking straight)
         _fps.SetCameraPitch(0f);
 
-        // 3. close door
-        PlayDoorSfx(doorCloseClip);
-        yield return StartCoroutine(AnimateDoor(doorOpenAngle, 0f, doorDuration));
-
-        // 4. animation done – enable hiding look
         _isHiding = true;
         _isAnimating = false;
-
-        // reset hiding look accumulators
         _hidingYaw = 0f;
         _hidingPitch = 0f;
 
@@ -161,37 +152,45 @@ public class CabinetHidingSpot : MonoBehaviour
     }
 
     // ──────────────────────────────────────────────
-    // Exit
+    // Exit: turn → slide out → stand up
     // ──────────────────────────────────────────────
-    private IEnumerator ExitCabinet()
+    private IEnumerator ExitDesk()
     {
         _isAnimating = true;
         HidePrompt();
 
-        // 1. snap view back to cabinet forward
-        _fps.transform.rotation = _cabinetForwardRot;
+        // snap view back to hide forward before animating out
+        _fps.transform.rotation = _hideForwardRot;
         _fps.SetCameraPitch(0f);
         _hidingYaw = 0f;
         _hidingPitch = 0f;
 
-        // 2. open door
-        PlayDoorSfx(doorOpenClip);
-        yield return StartCoroutine(AnimateDoor(0f, doorOpenAngle, doorDuration));
+        // resolve exit target
+        Vector3 exitPos;
+        Quaternion exitRot;
+        if (exitPoint != null)
+        {
+            exitPos = new Vector3(exitPoint.position.x, _fps.transform.position.y, exitPoint.position.z);
+            exitRot = exitPoint.rotation;
+        }
+        else
+        {
+            exitPos = new Vector3(_entryPosition.x, _fps.transform.position.y, _entryPosition.z);
+            exitRot = _entryRotation;
+        }
 
-        // 3. move player out (use entry ground Y so player doesn't clip through floor)
-        Vector3 startPos = _fps.transform.position;
-        Quaternion startRot = _fps.transform.rotation;
-        Vector3 targetPos = new Vector3(exitPoint.position.x, _entryGroundY, exitPoint.position.z);
-        Quaternion targetRot = exitPoint.rotation;
+        // 1. turn toward exit
+        yield return StartCoroutine(AnimateRotation(_fps.transform.rotation, exitRot, rotateDuration));
 
-        yield return StartCoroutine(MovePlayer(startPos, targetPos, startRot, targetRot, cameraDuration));
+        // 2. slide out horizontally
+        yield return StartCoroutine(AnimatePosition(_fps.transform.position, exitPos, moveDuration));
 
-        // 4. close door
-        PlayDoorSfx(doorCloseClip);
-        yield return StartCoroutine(AnimateDoor(doorOpenAngle, 0f, doorDuration));
+        // 3. stand up – raise Y back to entry ground level
+        Vector3 standPos = new Vector3(exitPos.x, _entryGroundY, exitPos.z);
+        yield return StartCoroutine(AnimatePosition(exitPos, standPos, crouchDuration));
 
-        // 5. restore player collider and control
         _charCtrl.enabled = true;
+
         _fps.SetCameraPitch(0f);
         _fps.LockCamera = false;
         _fps.LockMovement = false;
@@ -207,75 +206,60 @@ public class CabinetHidingSpot : MonoBehaviour
     }
 
     // ──────────────────────────────────────────────
-    // Hiding look (restricted yaw / pitch)
+    // Hiding look (restricted)
     // ──────────────────────────────────────────────
     private void HandleHidingLook()
     {
-        // continuously sync position so hidePositionOffset can be tweaked at runtime
-        Vector3 pos = cabinetBody.TransformPoint(hidePositionOffset);
-        pos.y = _entryGroundY + hidePositionOffset.y;
+        // live-sync position (hidePoint = camera target, so lower by cameraOffsetY)
+        Vector3 pos = hidePoint.TransformPoint(hidePositionOffset);
+        pos.y -= _cameraOffsetY;
         _fps.transform.position = pos;
 
         if (_input == null || _input.look.sqrMagnitude < 0.01f) return;
 
-        float deltaTimeMul = (_playerInput != null && _playerInput.currentControlScheme == "KeyboardMouse")
+        float dtMul = (_playerInput != null && _playerInput.currentControlScheme == "KeyboardMouse")
             ? 1.0f
             : Time.deltaTime;
-
         float rotSpeed = _fps.RotationSpeed;
 
-        _hidingYaw += _input.look.x * rotSpeed * deltaTimeMul;
-        _hidingPitch += _input.look.y * rotSpeed * deltaTimeMul;
-
+        _hidingYaw += _input.look.x * rotSpeed * dtMul;
+        _hidingPitch += _input.look.y * rotSpeed * dtMul;
         _hidingYaw = Mathf.Clamp(_hidingYaw, -maxYaw, maxYaw);
         _hidingPitch = Mathf.Clamp(_hidingPitch, -maxPitch, maxPitch);
 
-        // apply yaw to player body
-        _fps.transform.rotation = _cabinetForwardRot * Quaternion.Euler(0f, _hidingYaw, 0f);
-
-        // apply pitch to cinemachine target
+        _fps.transform.rotation = _hideForwardRot * Quaternion.Euler(0f, _hidingYaw, 0f);
         _cinemachineTarget.transform.localRotation = Quaternion.Euler(_hidingPitch, 0f, 0f);
     }
 
     // ──────────────────────────────────────────────
     // Animation helpers
     // ──────────────────────────────────────────────
-    private IEnumerator AnimateDoor(float fromAngle, float toAngle, float duration)
+    private IEnumerator AnimatePosition(Vector3 from, Vector3 to, float duration)
     {
-        Quaternion startRot = Quaternion.Euler(0f, fromAngle, 0f);
-        Quaternion endRot = Quaternion.Euler(0f, toAngle, 0f);
         float elapsed = 0f;
-
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
-            cabinetDoor.localRotation = Quaternion.Slerp(startRot, endRot, t);
+            _fps.transform.position = Vector3.Lerp(from, to, Mathf.SmoothStep(0f, 1f, elapsed / duration));
             yield return null;
         }
-
-        cabinetDoor.localRotation = endRot;
+        _fps.transform.position = to;
     }
 
-    private IEnumerator MovePlayer(Vector3 fromPos, Vector3 toPos, Quaternion fromRot, Quaternion toRot, float duration)
+    private IEnumerator AnimateRotation(Quaternion from, Quaternion to, float duration)
     {
         float elapsed = 0f;
-
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
-            _fps.transform.position = Vector3.Lerp(fromPos, toPos, t);
-            _fps.transform.rotation = Quaternion.Slerp(fromRot, toRot, t);
+            _fps.transform.rotation = Quaternion.Slerp(from, to, Mathf.SmoothStep(0f, 1f, elapsed / duration));
             yield return null;
         }
-
-        _fps.transform.position = toPos;
-        _fps.transform.rotation = toRot;
+        _fps.transform.rotation = to;
     }
 
     // ──────────────────────────────────────────────
-    // Audio & State helpers
+    // State helpers
     // ──────────────────────────────────────────────
     private void SetHideState(bool hiding)
     {
@@ -294,12 +278,6 @@ public class CabinetHidingSpot : MonoBehaviour
         }
     }
 
-    private void PlayDoorSfx(AudioClip clip)
-    {
-        if (doorAudioSource != null && clip != null)
-            doorAudioSource.PlayOneShot(clip);
-    }
-
     // ──────────────────────────────────────────────
     // Trigger & Prompt
     // ──────────────────────────────────────────────
@@ -309,7 +287,6 @@ public class CabinetHidingSpot : MonoBehaviour
         {
             _playerInRange = true;
             CachePlayerRefs();
-
             if (!_isHiding && InteractionPromptUI.Instance != null)
                 InteractionPromptUI.Instance.Show(enterPrompt);
         }
@@ -320,9 +297,7 @@ public class CabinetHidingSpot : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _playerInRange = false;
-
-            if (!_isHiding)
-                HidePrompt();
+            if (!_isHiding) HidePrompt();
         }
     }
 
@@ -341,10 +316,8 @@ public class CabinetHidingSpot : MonoBehaviour
     private void CachePlayerRefs()
     {
         if (_fps != null) return;
-
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return;
-
         _fps = player.GetComponent<FirstPersonController>();
         _input = player.GetComponent<StarterAssetsInputs>();
         _charCtrl = player.GetComponent<CharacterController>();
