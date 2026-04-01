@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Add this component to any interactable object that has a Trigger collider.
 /// When the Player enters the trigger, all child Renderers get an outline.
-/// No need to modify existing interaction scripts.
+/// Smooth normals are baked into UV3 at startup to eliminate hard-edge seams.
 /// </summary>
 public class InteractionHighlight : MonoBehaviour
 {
@@ -36,9 +37,66 @@ public class InteractionHighlight : MonoBehaviour
         _outlineMat.SetColor(ColorProp, outlineColor);
         _outlineMat.SetFloat(WidthProp, outlineWidth);
 
+        BakeSmoothNormals();
         CacheRenderers();
     }
 
+    // ──────────────────────────────────────────────
+    // Smooth normal baking (fixes hard-edge outline seams)
+    // ──────────────────────────────────────────────
+    private void BakeSmoothNormals()
+    {
+        foreach (var mf in GetComponentsInChildren<MeshFilter>())
+        {
+            // .mesh returns an instance copy – safe to modify without affecting other objects
+            var mesh = mf.mesh;
+            if (mesh == null || !mesh.isReadable) continue;
+            BakeSmooth(mesh);
+        }
+
+        foreach (var smr in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            var src = smr.sharedMesh;
+            if (src == null || !src.isReadable) continue;
+            var copy = Instantiate(src);
+            BakeSmooth(copy);
+            smr.sharedMesh = copy;
+        }
+    }
+
+    private static void BakeSmooth(Mesh mesh)
+    {
+        var vertices = mesh.vertices;
+        var normals = mesh.normals;
+        if (normals == null || normals.Length == 0) return;
+
+        // Accumulate normals per unique position (hard-edge vertices share position but differ in normal)
+        var accumulated = new Dictionary<string, Vector3>();
+        var keys = new string[vertices.Length];
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            var v = vertices[i];
+            var key = $"{v.x:F5},{v.y:F5},{v.z:F5}";
+            keys[i] = key;
+
+            if (accumulated.TryGetValue(key, out var sum))
+                accumulated[key] = sum + normals[i];
+            else
+                accumulated[key] = normals[i];
+        }
+
+        // Write averaged smooth normals to UV3
+        var smooth = new Vector3[vertices.Length];
+        for (int i = 0; i < vertices.Length; i++)
+            smooth[i] = accumulated[keys[i]].normalized;
+
+        mesh.SetUVs(3, smooth);
+    }
+
+    // ──────────────────────────────────────────────
+    // Material caching
+    // ──────────────────────────────────────────────
     private void CacheRenderers()
     {
         _renderers = GetComponentsInChildren<Renderer>();
@@ -56,6 +114,9 @@ public class InteractionHighlight : MonoBehaviour
         }
     }
 
+    // ──────────────────────────────────────────────
+    // Toggle
+    // ──────────────────────────────────────────────
     private void SetHighlight(bool on)
     {
         if (_highlighted == on) return;

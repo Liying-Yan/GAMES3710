@@ -29,8 +29,9 @@ Shader "Custom/Outline"
 
             struct Attributes
             {
-                float4 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
+                float4 positionOS     : POSITION;
+                float3 normalOS       : NORMAL;
+                float3 smoothNormalOS : TEXCOORD3; // baked smooth normals
             };
 
             struct Varyings
@@ -44,7 +45,13 @@ Shader "Custom/Outline"
             Varyings vert(Attributes input)
             {
                 Varyings output;
-                float3 posOS = input.positionOS.xyz + input.normalOS * _OutlineWidth;
+
+                // Use baked smooth normals if available, otherwise fall back to mesh normals
+                float3 extrude = dot(input.smoothNormalOS, input.smoothNormalOS) > 0.001
+                    ? normalize(input.smoothNormalOS)
+                    : normalize(input.normalOS);
+
+                float3 posOS = input.positionOS.xyz + extrude * _OutlineWidth;
                 output.positionCS = TransformObjectToHClip(posOS);
                 return output;
             }
