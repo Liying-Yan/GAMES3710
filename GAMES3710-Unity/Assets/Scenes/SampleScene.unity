@@ -46592,6 +46592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: huaxuezhuo
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -8513424388201257645, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
@@ -46998,6 +47002,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
       propertyPath: m_Name
       value: huaxuezhuo (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -66019,6 +66027,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: huaxuezhuo (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -8513424388201257645, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
@@ -66169,6 +66181,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
       propertyPath: m_Name
       value: huaxuezhuo (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -69354,6 +69370,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: huaxuezhuo (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -8513424388201257645, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
@@ -69430,6 +69450,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
       propertyPath: m_Name
       value: huaxuezhuo (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed98189609aa5714a9ae5d79b45447a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
