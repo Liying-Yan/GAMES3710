@@ -10,6 +10,12 @@ public class ItemPickup : Interactable
     [HideInInspector]
     public bool isPickedUp = false;
 
+    // ===== 新增：音效相关 =====
+    [Header("Audio")]
+    public AudioSource audioSource;   // 用来播放音效
+    public AudioClip pickupSound;     // 拾取音效
+    // ========================
+
     private void Update()
     {
         if (PlayerInRange && Keyboard.current.eKey.wasPressedThisFrame)
@@ -23,6 +29,13 @@ public class ItemPickup : Interactable
         if (isPickedUp) return;
 
         isPickedUp = true;
+
+        // ===== 新增：播放音效 =====
+        if (audioSource != null && pickupSound != null)
+        {
+            audioSource.PlayOneShot(pickupSound);
+        }
+        // ========================
 
         if (PlayerInventory.Instance != null)
         {
