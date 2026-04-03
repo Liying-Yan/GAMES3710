@@ -2906,7 +2906,7 @@ GameObject:
   - component: {fileID: 92385152}
   - component: {fileID: 92385151}
   m_Layer: 0
-  m_Name: Cube (15)
+  m_Name: AlarmTriggerTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
