@@ -17,6 +17,11 @@ public class AlarmLightController : MonoBehaviour
     [Header("Blink Timing")]
     public float blinkInterval = 0.35f;
 
+    [Header("Alarm Audio")]
+    public AudioSource alarmAudioSource;
+    public AudioClip alarmClip;
+    public bool loopAlarm = true;
+
     [Header("State")]
     public bool generatorStarted = false;
 
@@ -35,6 +40,12 @@ public class AlarmLightController : MonoBehaviour
         }
 
         SetLightState(false);
+
+        if (alarmAudioSource != null)
+        {
+            alarmAudioSource.playOnAwake = false;
+            alarmAudioSource.loop = loopAlarm;
+        }
 
         if (testMode)
         {
@@ -76,6 +87,12 @@ public class AlarmLightController : MonoBehaviour
         timer = 0f;
         isOn = false;
         SetLightState(false);
+
+        if (alarmAudioSource != null && alarmClip != null && !alarmAudioSource.isPlaying)
+        {
+            alarmAudioSource.clip = alarmClip;
+            alarmAudioSource.Play();
+        }
     }
 
     public void StopAlarm()
@@ -84,5 +101,10 @@ public class AlarmLightController : MonoBehaviour
         timer = 0f;
         isOn = false;
         SetLightState(false);
+
+        if (alarmAudioSource != null && alarmAudioSource.isPlaying)
+        {
+            alarmAudioSource.Stop();
+        }
     }
 }
