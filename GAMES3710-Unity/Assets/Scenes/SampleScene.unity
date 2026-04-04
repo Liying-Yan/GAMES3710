@@ -18618,6 +18618,14 @@ PrefabInstance:
       propertyPath: obstacleMask.m_Bits
       value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
+      propertyPath: MaxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
+      propertyPath: MinDistance
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4327582104462354149, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -33834,6 +33842,14 @@ PrefabInstance:
     - target: {fileID: 190348308627385177, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: obstacleMask.m_Bits
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
+      propertyPath: MaxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
+      propertyPath: MinDistance
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 4327582104462354149, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -111362,11 +111378,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MaxDistance
-      value: 3.2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MinDistance
-      value: 0.35
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: OutputAudioMixerGroup
