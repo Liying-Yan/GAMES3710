@@ -18620,11 +18620,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MaxDistance
-      value: 5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MinDistance
-      value: 1.8
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4327582104462354149, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -32410,6 +32410,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3828355145789844377, guid: c8968b4864bbb5746908852e5d3d3c9d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 615604074}
+    - targetCorrespondingSourceObject: {fileID: 3828355145789844377, guid: c8968b4864bbb5746908852e5d3d3c9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 615604078}
+    - targetCorrespondingSourceObject: {fileID: 3828355145789844377, guid: c8968b4864bbb5746908852e5d3d3c9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 615604077}
   m_SourcePrefab: {fileID: 100100000, guid: c8968b4864bbb5746908852e5d3d3c9d, type: 3}
 --- !u!4 &615604071 stripped
 Transform:
@@ -32437,6 +32443,119 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.00817572, y: 0.0086931, z: 0.005272233}
   m_Center: {x: -0.000000007450581, y: -2.3283067e-10, z: 2.3283062e-10}
+--- !u!114 &615604077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568774010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c17f956ef1e9f846a0999a26db9527c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeskVoiceTrigger
+  player: {fileID: 3239944139789812198}
+  audioSource: {fileID: 615604078}
+  triggerDistance: 1
+  subtitle: "It's here, It's here...IT'S MOVING! \nHIDE...HIDE UNDER THE PODIUM NOW!!"
+--- !u!82 &615604078
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568774010}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 2fca0e732ede93449818f79c5262880e, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &619795334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33845,11 +33964,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MaxDistance
-      value: 5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MinDistance
-      value: 1.8
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4327582104462354149, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -84452,7 +84571,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657380782}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -84549,7 +84668,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657380782}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c17f956ef1e9f846a0999a26db9527c, type: 3}
   m_Name: 
@@ -111378,11 +111497,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MaxDistance
-      value: 5
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: MinDistance
-      value: 1.8
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 2706051946019523995, guid: ae484ddc01543ec4c8f6920620caab11, type: 3}
       propertyPath: OutputAudioMixerGroup
