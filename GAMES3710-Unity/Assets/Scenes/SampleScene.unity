@@ -47074,7 +47074,7 @@ GameObject:
   - component: {fileID: 940264464}
   - component: {fileID: 940264463}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: CorridorSoundTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47119,8 +47119,11 @@ MonoBehaviour:
   triggerDistance: 3
   playOnce: 1
   volume: 1
-  minDistance: 5
-  maxDistance: 8
+  minDistance: 6
+  maxDistance: 16
+  fadeInTime: 2
+  fadeOutTime: 3
+  destroyDelayAfterFade: 0.3
 --- !u!4 &940264465
 Transform:
   m_ObjectHideFlags: 0
