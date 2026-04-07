@@ -10,11 +10,9 @@ public class ItemPickup : Interactable
     [HideInInspector]
     public bool isPickedUp = false;
 
-    // ===== 新增：音效相关 =====
     [Header("Audio")]
-    public AudioSource audioSource;   // 用来播放音效
-    public AudioClip pickupSound;     // 拾取音效
-    // ========================
+    public AudioSource audioSource;
+    public AudioClip pickupSound;
 
     private void Update()
     {
@@ -30,12 +28,10 @@ public class ItemPickup : Interactable
 
         isPickedUp = true;
 
-        // ===== 新增：播放音效 =====
-        if (audioSource != null && pickupSound != null)
+        if (pickupSound != null)
         {
-            audioSource.PlayOneShot(pickupSound);
+            PlayPickupSound();
         }
-        // ========================
 
         if (PlayerInventory.Instance != null)
         {
@@ -49,6 +45,37 @@ public class ItemPickup : Interactable
 
         HidePrompt();
         gameObject.SetActive(false);
+    }
+
+    private void PlayPickupSound()
+    {
+        GameObject tempSound = new GameObject("TempPickupSound");
+        tempSound.transform.position = transform.position;
+
+        AudioSource tempSource = tempSound.AddComponent<AudioSource>();
+        tempSource.clip = pickupSound;
+
+        if (audioSource != null)
+        {
+            tempSource.outputAudioMixerGroup = audioSource.outputAudioMixerGroup;
+            tempSource.volume = audioSource.volume;
+            tempSource.pitch = audioSource.pitch;
+            tempSource.spatialBlend = audioSource.spatialBlend;
+            tempSource.minDistance = audioSource.minDistance;
+            tempSource.maxDistance = audioSource.maxDistance;
+            tempSource.rolloffMode = audioSource.rolloffMode;
+        }
+        else
+        {
+            tempSource.volume = 1f;
+            tempSource.spatialBlend = 1f;
+            tempSource.minDistance = 1f;
+            tempSource.maxDistance = 15f;
+            tempSource.rolloffMode = AudioRolloffMode.Logarithmic;
+        }
+
+        tempSource.Play();
+        Destroy(tempSound, pickupSound.length + 0.1f);
     }
 
     protected override void OnPlayerEnter()
