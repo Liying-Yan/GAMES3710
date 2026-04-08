@@ -53,6 +53,38 @@ public class SubtitleUI : MonoBehaviour
         _current = StartCoroutine(ShowCoroutine(subtitle, source));
     }
 
+    public void Show(string subtitle, float duration)
+    {
+        if (string.IsNullOrEmpty(subtitle) || duration <= 0f) return;
+
+        if (_current != null)
+            StopCoroutine(_current);
+
+        _current = StartCoroutine(ShowCoroutine(subtitle, duration));
+    }
+
+    private IEnumerator ShowCoroutine(string subtitle, float duration)
+    {
+        _text.text = subtitle;
+        _panel.SetActive(true);
+        _canvasGroup.alpha = 1f;
+
+        yield return new WaitForSeconds(duration);
+
+        // Fade out
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            _canvasGroup.alpha = 1f - elapsed / fadeDuration;
+            yield return null;
+        }
+
+        _canvasGroup.alpha = 0f;
+        _panel.SetActive(false);
+        _current = null;
+    }
+
     private IEnumerator ShowCoroutine(string subtitle, AudioSource source)
     {
         _text.text = subtitle;
