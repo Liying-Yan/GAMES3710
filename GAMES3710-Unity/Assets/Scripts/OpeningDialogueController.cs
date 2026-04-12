@@ -27,6 +27,7 @@ public class OpeningDialogueController : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audioSource;
+    public AudioClip clickSfx;
     public AudioClip boomSfx;
 
     [Header("Scene")]
@@ -57,6 +58,13 @@ public class OpeningDialogueController : MonoBehaviour
 
         if (pressedContinue)
         {
+            bool hasNextLine = currentIndex < lines.Length - 1;
+
+            if (hasNextLine && audioSource != null && clickSfx != null)
+            {
+                audioSource.PlayOneShot(clickSfx);
+            }
+
             currentIndex++;
 
             if (currentIndex < lines.Length)
@@ -73,6 +81,7 @@ public class OpeningDialogueController : MonoBehaviour
     private void ShowCurrentLine()
     {
         if (lines == null || lines.Length == 0) return;
+        if (currentIndex < 0 || currentIndex >= lines.Length) return;
 
         nameText.text = lines[currentIndex].speaker;
         dialogueText.text = lines[currentIndex].text;
