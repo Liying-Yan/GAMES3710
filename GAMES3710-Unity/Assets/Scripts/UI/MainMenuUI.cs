@@ -17,6 +17,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Sprite exitHovered;
 
     [Header("Settings")]
+    [SerializeField] private string introductionSceneName = "OpeningScene"; // 测试一下
     [SerializeField] private string gameSceneName = "SampleScene";
 
     [Header("Audio")]
@@ -81,14 +82,12 @@ public class MainMenuUI : MonoBehaviour
     private void CreateMenuButton(string name, Transform parent, Sprite normal, Sprite hovered, UnityEngine.Events.UnityAction onClick)
     {
         var btnObj = CreateChild(name, parent);
-        var rect = btnObj.GetComponent<RectTransform>();
 
         var image = btnObj.AddComponent<Image>();
         image.sprite = normal;
         image.preserveAspect = true;
         image.color = Color.white;
         image.type = Image.Type.Simple;
-
         image.raycastTarget = true;
 
         var button = btnObj.AddComponent<Button>();
@@ -115,8 +114,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void PlayClickSound()
     {
-        Debug.Log("click sound called");
-
         if (clickSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(clickSound);
@@ -125,8 +122,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void PlayHoverSound()
     {
-        Debug.Log("hover sound called");
-
         if (hoverSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(hoverSound);
@@ -135,7 +130,9 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnIntroduction()
     {
-        Debug.Log("Introduction - not yet implemented");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene(introductionSceneName);
     }
 
     private void OnStart()
