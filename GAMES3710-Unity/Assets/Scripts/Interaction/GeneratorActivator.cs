@@ -26,6 +26,11 @@ public class GeneratorActivator : Interactable
     public string dependencyPrompt = "Requires another mechanism first";
     public string activatedPrompt = "Generator activated";
 
+    [Header("Escape Hint Subtitle")]
+    [TextArea]
+    public string exitHintSubtitle = "I need to find the exit... fast.";
+    public float exitHintDuration = 3f;
+
     [Header("SFX")]
     public AudioClip lockedSfx;
 
@@ -126,6 +131,11 @@ public class GeneratorActivator : Interactable
         }
 
         TriggerAlarmLights();
+
+        if (GuideSubtitleUI.Instance != null)
+        {
+            GuideSubtitleUI.Instance.Show(exitHintSubtitle, exitHintDuration);
+        }
 
         switch (animationType)
         {
