@@ -1333,23 +1333,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OpeningDialogueController
   lines:
-  - speaker: Deskmate
-    text: I had a strange dream last night
   - speaker: 
-    text: What kind of dream?
-  - speaker: Deskmate
-    text: The school was full of monsters. There were bodies everywhere.
-  - speaker: Deskmate
-    text: I tried to open a door, but it wouldn't open.
+    text: "This school was once known for its \u201Chigh-intensity academic training.\u201D"
   - speaker: 
-    text: And then what? Did you get killed too?
-  - speaker: Deskmate
-    text: I heard the fire alarm and remembered there was an emergency exit. So I
-      ran.
+    text: Students were required to work day and night on research, experiments,
+      and competitions.
   - speaker: 
-    text: You seriously need less medication.
-  - speaker: Deskmate
-    text: Final exams are tomorrow...
+    text: Grades did not only determine their future. They also decided whether a
+      student was allowed to stay.
+  - speaker: 
+    text: Over time, the constant pressure began to take a toll. Students started
+      to suffer from insomnia and anxiety.
+  - speaker: 
+    text: "At first, it was only occasional distraction\u2026and slight auditory
+      distortions."
+  - speaker: 
+    text: But then, a certain drug began to spread among the students.
+  - speaker: 
+    text: The school remained silent about it.
+  - speaker: 
+    text: Meanwhile, the laboratories started running overtime more frequently...
   nameText: {fileID: 521899962}
   dialogueText: {fileID: 911777800}
   dialoguePanel: {fileID: 703274232}
