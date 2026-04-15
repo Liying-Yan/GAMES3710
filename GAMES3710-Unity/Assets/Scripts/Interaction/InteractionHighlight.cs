@@ -16,6 +16,7 @@ using UnityEngine.Rendering.Universal;
 public class InteractionHighlight : MonoBehaviour
 {
     [Header("Outline Settings")]
+    [SerializeField] private Shader outlineShader;
     public Color outlineColor = Color.white;
     [Range(0f, 0.02f)]
     public float outlineWidth = 0.005f;
@@ -31,10 +32,10 @@ public class InteractionHighlight : MonoBehaviour
 
     private void Start()
     {
-        var shader = Shader.Find("Custom/Outline");
+        var shader = outlineShader != null ? outlineShader : Shader.Find("Custom/Outline");
         if (shader == null)
         {
-            Debug.LogError("InteractionHighlight: Custom/Outline shader not found.");
+            Debug.LogError("InteractionHighlight: Custom/Outline shader not found. Assign it in the Inspector.");
             enabled = false;
             return;
         }
