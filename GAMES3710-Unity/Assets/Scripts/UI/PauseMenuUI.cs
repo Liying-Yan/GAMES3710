@@ -68,7 +68,8 @@ public class PauseMenuUI : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame
             && !ReadingUI.IsReading
             && !_wasReading
-            && !GameOverUI.IsGameOver)
+            && !GameOverUI.IsGameOver
+            && !EndScreenUI.IsEndScreen)
         {
             if (IsPaused)
                 Hide();
