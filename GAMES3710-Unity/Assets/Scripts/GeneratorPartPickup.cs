@@ -55,6 +55,9 @@ public class GeneratorPartPickup : MonoBehaviour
         {
             r.enabled = false;
         }
+
+        var highlight = GetComponent<InteractionHighlight>();
+        if (highlight != null) highlight.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
