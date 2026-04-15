@@ -94,9 +94,9 @@ public class EndScreenUI : MonoBehaviour
         var panelImage = _panel.AddComponent<Image>();
         panelImage.color = Color.black;
 
-        // Background image - load from Resources
-        var tex = Resources.Load<Texture2D>("end_bg");
-        if (tex != null)
+        // Background image - load from Resources (same pattern as MainMenuUI)
+        var bgSprite = Resources.Load<Sprite>("end_bg");
+        if (bgSprite != null)
         {
             var bgObj = new GameObject("Background");
             bgObj.transform.SetParent(_panel.transform, false);
@@ -107,17 +107,13 @@ public class EndScreenUI : MonoBehaviour
             bgRect.offsetMin = Vector2.zero;
             bgRect.offsetMax = Vector2.zero;
 
-            var sprite = Sprite.Create(tex,
-                new Rect(0, 0, tex.width, tex.height),
-                new Vector2(0.5f, 0.5f));
-
             var bgImage = bgObj.AddComponent<Image>();
-            bgImage.sprite = sprite;
+            bgImage.sprite = bgSprite;
             bgImage.raycastTarget = false;
 
             var fitter = bgObj.AddComponent<AspectRatioFitter>();
             fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
-            fitter.aspectRatio = (float)tex.width / tex.height;
+            fitter.aspectRatio = bgSprite.rect.width / bgSprite.rect.height;
         }
 
         // Button
