@@ -133,8 +133,23 @@ public class InteractionHighlight : MonoBehaviour
     private void Update()
     {
         if (_outlineMat == null) return;
+
+        if (_highlighted && AreAllRenderersGone())
+        {
+            SetHighlight(false);
+            return;
+        }
+
         _outlineMat.SetColor(ColorProp, outlineColor);
         _outlineMat.SetFloat(WidthProp, outlineWidth);
+    }
+
+    private bool AreAllRenderersGone()
+    {
+        foreach (var r in _renderers)
+            if (r != null && r.gameObject.activeInHierarchy)
+                return false;
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -215,7 +230,7 @@ public class InteractionHighlight : MonoBehaviour
                     // Pass 0: fill stencil with mesh silhouettes
                     foreach (var r in data.renderers)
                     {
-                        if (r == null) continue;
+                        if (r == null || !r.gameObject.activeInHierarchy) continue;
                         int count = GetSubmeshCount(r);
                         for (int i = 0; i < count; i++)
                             cmd.DrawRenderer(r, data.material, i, 0);
@@ -224,7 +239,7 @@ public class InteractionHighlight : MonoBehaviour
                     // Pass 1: draw outlines where stencil != 1
                     foreach (var r in data.renderers)
                     {
-                        if (r == null) continue;
+                        if (r == null || !r.gameObject.activeInHierarchy) continue;
                         int count = GetSubmeshCount(r);
                         for (int i = 0; i < count; i++)
                             cmd.DrawRenderer(r, data.material, i, 1);
@@ -238,7 +253,7 @@ public class InteractionHighlight : MonoBehaviour
             // Pass 0: fill stencil
             foreach (var r in _renderers)
             {
-                if (r == null) continue;
+                if (r == null || !r.gameObject.activeInHierarchy) continue;
                 int count = GetSubmeshCount(r);
                 for (int i = 0; i < count; i++)
                     cmd.DrawRenderer(r, _material, i, 0);
@@ -247,7 +262,7 @@ public class InteractionHighlight : MonoBehaviour
             // Pass 1: draw outlines
             foreach (var r in _renderers)
             {
-                if (r == null) continue;
+                if (r == null || !r.gameObject.activeInHierarchy) continue;
                 int count = GetSubmeshCount(r);
                 for (int i = 0; i < count; i++)
                     cmd.DrawRenderer(r, _material, i, 1);
