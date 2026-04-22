@@ -9,12 +9,12 @@ public class ObjectiveUI : MonoBehaviour
     public static ObjectiveUI Instance { get; private set; }
 
     [Header("Style (values are for 1080p, auto-scaled)")]
-    [SerializeField] private float panelWidth = 320f;
-    [SerializeField] private float panelPadding = 12f;
+    [SerializeField] private float panelWidth = 480f;
+    [SerializeField] private float panelPadding = 16f;
     [SerializeField] private float topOffset = 80f;
-    [SerializeField] private float goalFontSize = 14f;
-    [SerializeField] private float objectiveFontSize = 20f;
-    [SerializeField] private float subTaskFontSize = 16f;
+    [SerializeField] private float goalFontSize = 22f;
+    [SerializeField] private float objectiveFontSize = 28f;
+    [SerializeField] private float subTaskFontSize = 24f;
     [SerializeField] private Color bgColor = new Color(0f, 0f, 0f, 0.4f);
     [SerializeField] private Color goalColor = new Color(0.6f, 0.6f, 0.6f, 1f);
     [SerializeField] private Color objectiveColor = Color.white;
@@ -170,7 +170,7 @@ public class ObjectiveUI : MonoBehaviour
         obj.transform.SetParent(_panel.transform, false);
 
         var rect = obj.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(panelWidth - panelPadding * 2 - 16f, 24f);
+        rect.sizeDelta = new Vector2((panelWidth - panelPadding * 2 - 16f) * _scale, 24f * _scale);
 
         var text = obj.AddComponent<TextMeshProUGUI>();
         text.fontSize = subTaskFontSize * _scale;

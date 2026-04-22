@@ -79,7 +79,8 @@ public class GameOverUI : MonoBehaviour
     private void OnRestart()
     {
         Time.timeScale = 1f;
-        IsGameOver = false;
+        // IsGameOver stays true until OnDestroy, preventing re-trigger by
+        // scripts that still run between LoadScene call and end-of-frame.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

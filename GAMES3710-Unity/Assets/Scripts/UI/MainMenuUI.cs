@@ -17,6 +17,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Sprite exitHovered;
 
     [Header("Settings")]
+    [SerializeField] private string introductionSceneName = "OpeningScene"; // 测试一下
     [SerializeField] private string gameSceneName = "SampleScene";
 
     [Header("Audio")]
@@ -61,19 +62,17 @@ public class MainMenuUI : MonoBehaviour
 
         var container = CreateChild("Buttons", bg.transform);
         var containerRect = container.GetComponent<RectTransform>();
-        containerRect.anchorMin = new Vector2(0.5f, 0.35f);
-        containerRect.anchorMax = new Vector2(0.5f, 0.35f);
-        containerRect.pivot = new Vector2(0.5f, 0.5f);
-        containerRect.anchoredPosition = Vector2.zero;
-        containerRect.sizeDelta = new Vector2(400f, 300f);
+        containerRect.anchorMin = new Vector2(0.42f, 0.0f);
+        containerRect.anchorMax = new Vector2(0.58f, 0.4f);
+        containerRect.offsetMin = Vector2.zero;
+        containerRect.offsetMax = Vector2.zero;
 
         var layout = container.AddComponent<VerticalLayoutGroup>();
-        layout.spacing = 20f;
         layout.childAlignment = TextAnchor.MiddleCenter;
-        layout.childControlWidth = false;
-        layout.childControlHeight = false;
-        layout.childForceExpandWidth = false;
-        layout.childForceExpandHeight = false;
+        layout.childControlWidth = true;
+        layout.childControlHeight = true;
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = true;
 
         CreateMenuButton("IntroductionBtn", container.transform, introductionNormal, introductionHovered, OnIntroduction);
         CreateMenuButton("StartBtn", container.transform, startNormal, startHovered, OnStart);
@@ -83,24 +82,13 @@ public class MainMenuUI : MonoBehaviour
     private void CreateMenuButton(string name, Transform parent, Sprite normal, Sprite hovered, UnityEngine.Events.UnityAction onClick)
     {
         var btnObj = CreateChild(name, parent);
-        var rect = btnObj.GetComponent<RectTransform>();
 
         var image = btnObj.AddComponent<Image>();
         image.sprite = normal;
         image.preserveAspect = true;
         image.color = Color.white;
         image.type = Image.Type.Simple;
-
-        if (normal != null)
-        {
-            image.SetNativeSize();
-            float scale = 0.5f;
-            rect.sizeDelta = rect.sizeDelta * scale;
-        }
-        else
-        {
-            rect.sizeDelta = new Vector2(200f, 60f);
-        }
+        image.raycastTarget = true;
 
         var button = btnObj.AddComponent<Button>();
         button.targetGraphic = image;
@@ -126,8 +114,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void PlayClickSound()
     {
-        Debug.Log("click sound called");
-
         if (clickSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(clickSound);
@@ -136,8 +122,6 @@ public class MainMenuUI : MonoBehaviour
 
     private void PlayHoverSound()
     {
-        Debug.Log("hover sound called");
-
         if (hoverSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(hoverSound);
@@ -146,7 +130,9 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnIntroduction()
     {
-        Debug.Log("Introduction - not yet implemented");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene(introductionSceneName);
     }
 
     private void OnStart()
